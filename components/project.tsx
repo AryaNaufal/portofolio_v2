@@ -44,61 +44,72 @@ export default function Project() {
   const { darkMode } = useTheme();
   return (
     <section
-      className={`transition-colors duration-700 min-h-screen pt-16 pb-28 ${
-        darkMode ? "bg-gray-900 text-[#F7F7F7]" : "bg-[#F7F7F7] text-gray-900"
-      }`}
+      className={`transition-colors duration-800 min-h-screen pt-20 pb-28 ${
+        darkMode ? "bg-[#0b0f14] text-[#F7F7F7]" : "bg-[#f7f4ee] text-gray-900"
+      } border-t border-[color:var(--border)] scroll-mt-24`}
       id="project"
     >
-      <div className="container pt-[4rem] lg:pt-[5rem]">
-        <div className="flex flex-col items-center justify-center gap-8 text-center lg:gap-12">
+      <div className="container">
+        <div className="flex flex-col items-center gap-8 text-center lg:gap-12">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             viewport={{ once: true }}
-            className="text-4xl font-bold text-transparent xl:text-6xl bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text hover:from-pink-500 hover:to-orange-500"
-            style={{ lineHeight: "normal" }}
+            className="space-y-3"
           >
-            <h1>Project</h1>
+            <p
+              className={`text-xs font-semibold uppercase tracking-[0.3em] ${
+                darkMode ? "text-slate-300/80" : "text-slate-600"
+              }`}
+            >
+              Selected Work
+            </p>
+            <h2 className="text-3xl font-semibold md:text-5xl">
+              Project <span className="gradient-text">Terbaru</span>
+            </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             {projects.map((project, index) => (
-              <motion.div
+              <motion.article
                 key={index}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 1,
-                  delay: index * 0.15,
-                  ease: "easeOut",
+                  duration: 0.75,
+                  delay: index * 0.12,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
                 viewport={{ once: true }}
-                className={`p-6 transisiton-colors duration-700 ${
-                  darkMode ? "bg-gray-900" : "bg-[#F7F7F7]"
-                } rounded-lg shadow-lg hover:shadow-xl`}
+                className="glass-panel group relative overflow-hidden rounded-3xl p-6 text-left transition-transform duration-400 hover:-translate-y-1"
               >
-                <h3 className="mb-4 text-2xl font-bold text-transparent bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text">
-                  {project.name}
-                </h3>
-                <div className="flex items-center justify-center md:h-32">
-                  <ul className="mb-4 text-sm list-disc">
+                <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-teal-500 to-amber-400 opacity-0 transition-opacity duration-400 group-hover:opacity-100"></div>
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-semibold capitalize">
+                    {project.name}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
                     {project.techStack.map((tech, i) => (
-                      <li key={i} className="w-fit">
+                      <span
+                        key={i}
+                        className="rounded-full border border-[color:var(--border)] px-3 py-1 text-xs font-semibold tracking-wide"
+                      >
                         {tech}
-                      </li>
+                      </span>
                     ))}
-                  </ul>
+                  </div>
                 </div>
                 <a
                   href={project.repoLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-semibold text-pink-500 transition-colors duration-300 hover:text-pink-400"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--accent)] transition-colors duration-400 hover:text-[color:var(--accent-2)]"
                 >
                   View Repository
+                  <span aria-hidden="true">-&gt;</span>
                 </a>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
         </div>

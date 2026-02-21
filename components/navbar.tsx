@@ -59,7 +59,7 @@ export default function Navbar() {
       });
 
       if (!foundActiveSection) {
-        setActiveSection("");
+        return;
       }
     };
 
@@ -72,110 +72,108 @@ export default function Navbar() {
     };
   }, []);
 
-  const handleScrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
-  const dark = scrolled ? "bg-gray-900 shadow-md" : "bg-transparent";
-  const white = scrolled ? "bg-[#F7F7F7] shadow-md" : "bg-transparent";
+  const dark = scrolled
+    ? "bg-[#0b0f14]/80 backdrop-blur-lg border-b border-white/5"
+    : "bg-transparent";
+  const light = scrolled
+    ? "bg-white/70 backdrop-blur-lg border-b border-black/5"
+    : "bg-transparent";
 
   return (
-    <nav
-      className={`fixed top-0 z-10 w-screen text-white transition-colors duration-500 ${
-        darkMode ? dark : white
-      }`}
-    >
-      <div className="container flex items-center justify-between h-20">
-        <motion.div
-          className="text-2xl font-bold cursor-pointer"
-          whileHover={{
-            color: ["#f97316", "#ec4899"],
-          }}
-          transition={{ duration: 1 }}
-          style={{ color: darkMode ? "#F7F7F7" : "#000033" }}
-          onClick={() => handleScrollToSection("home")}
-        >
-          <h1>Portofolio</h1>
-        </motion.div>
+    <>
+      <nav
+        className={`fixed top-0 z-40 w-screen transition-colors duration-700 ${
+          darkMode ? dark : light
+        }`}
+        aria-label="Primary"
+      >
+        <div className="container flex h-20 items-center justify-between">
+          <motion.a
+            href="#home"
+            className="cursor-pointer text-xl font-semibold md:text-2xl"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.4 }}
+            style={{ color: darkMode ? "#F7F7F7" : "#0f172a" }}
+          >
+            <h1>
+              Portofolio{" "}
+              <span className="gradient-text hidden sm:inline">Arya</span>
+            </h1>
+          </motion.a>
 
-        <div>
-          <ul className="flex items-center gap-5">
-            {menu.map((item) => (
+          <div className="flex items-center gap-3">
+            <div className="md:hidden">
+              <DarkMode />
+            </div>
+            <ul className="hidden items-center gap-3 md:flex">
+              {menu.map((item) => (
               <li
                 key={item.label}
-                className={`px-4 py-2 font-semibold rounded-md cursor-pointer hidden md:block ${
-                  activeSection === item.target
-                    ? "underline text-orange-500 underline-offset-[6px] decoration-[3px] "
-                    : "bg-transparent"
-                }`}
-                onClick={() => handleScrollToSection(item.target)}
+                className="px-4 py-2"
               >
-                <motion.div
-                  whileHover={{
-                    color: ["#f97316", "#ec4899"],
-                  }}
-                  transition={{ duration: 1 }}
-                  style={{ color: darkMode ? "#F7F7F7" : "#000033" }}
+                <motion.a
+                  href={item.link}
+                  aria-current={
+                    activeSection === item.target ? "page" : undefined
+                  }
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.3 }}
+                  className={`relative text-sm font-semibold tracking-wide ${
+                    activeSection === item.target
+                      ? "text-[color:var(--accent)]"
+                      : darkMode
+                      ? "text-white/80"
+                      : "text-slate-700"
+                  }`}
                 >
                   {item.label}
-                </motion.div>
+                  <span
+                    className={`absolute left-0 top-full mt-2 h-[2px] w-full bg-gradient-to-r from-teal-500 to-amber-400 transition-opacity duration-400 ${
+                      activeSection === item.target
+                        ? "opacity-100"
+                        : "opacity-0"
+                    }`}
+                  ></span>
+                </motion.a>
               </li>
             ))}
-            <li>
-              <DarkMode />
-            </li>
-          </ul>
+              <li>
+                <DarkMode />
+              </li>
+            </ul>
+          </div>
         </div>
-        {/* mobile */}
-        <div
-          className={`fixed bottom-0 right-0 flex justify-center w-full shadow-[rgba(50,50,93,0.25)_0px_-2px_4px_-2px,_rgba(0,0,0,0.3)_0px_-3px_7px_-3px]
- ${darkMode ? "bg-gray-900" : "bg-[#F7F7F7]"} md:hidden`}
-        >
-          <ul className="flex items-center gap-5">
-            {menu.map((item) => (
-              <motion.li
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-                key={item.label}
-                className={`relative px-3 py-4 font-semibold rounded-full cursor-pointer text-xs ${
-                  activeSection === item.target
-                    ? `bg-gradient-to-r from-orange-500 to-pink-500 text-[#F7F7F7] absolute top-[-20px] ${
-                        darkMode ? "border-gray-900" : "border-red-500"
-                      }`
-                    : "bg-transparent"
-                }`}
-                onClick={() => handleScrollToSection(item.target)}
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  whileHover={{
-                    color: ["#f97316", "#ec4899"],
-                  }}
-                  transition={{ duration: 1 }}
-                  className="flex flex-col items-center"
-                  style={{
-                    color:
-                      darkMode || activeSection === item.target
-                        ? "#F7F7F7"
-                        : "#000033",
-                  }}
-                >
-                  {item.icon}
-                  {item.label}
-                </motion.div>
-              </motion.li>
-            ))}
-          </ul>
+      </nav>
+
+      {/* mobile bottom nav */}
+      <nav
+        aria-label="Mobile"
+        className="fixed bottom-4 left-1/2 z-40 w-[92%] max-w-md -translate-x-1/2 md:hidden"
+        style={{ bottom: "calc(1rem + env(safe-area-inset-bottom))" }}
+      >
+        <div className="glass-panel flex items-center justify-between rounded-full px-4 py-2">
+          {menu.map((item) => (
+            <motion.a
+              key={item.label}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              href={item.link}
+              aria-current={activeSection === item.target ? "page" : undefined}
+              className={`flex flex-1 flex-col items-center gap-1 rounded-full px-3 py-2 text-[0.7rem] font-semibold transition-all duration-400 ${
+                activeSection === item.target
+                  ? "bg-gradient-to-r from-teal-500 to-amber-400 text-slate-900 shadow-lg shadow-amber-500/20"
+                  : darkMode
+                  ? "text-white/80"
+                  : "text-slate-700"
+              }`}
+            >
+              <span className="text-base">{item.icon}</span>
+              {item.label}
+            </motion.a>
+          ))}
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }

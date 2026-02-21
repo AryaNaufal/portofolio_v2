@@ -2,81 +2,141 @@
 
 import { useTheme } from "@/context/theme-context";
 import { motion } from "framer-motion";
-import TimeLine from "./time-line";
+import TimeLine from "./timeline";
 
 export default function About() {
   const { darkMode } = useTheme();
 
   return (
     <section
-      className={`transition-colors duration-700 ${
-        darkMode ? "bg-gray-900 text-[#F7F7F7]" : "bg-[#F7F7F7] text-gray-900"
-      } min-h-screen py-16`}
+      className={`transition-colors duration-800 relative ${
+        darkMode ? "bg-[#0b0f14] text-[#F7F7F7]" : "bg-[#f7f4ee] text-gray-900"
+      } border-t border-[color:var(--border)] scroll-mt-24`}
       id="about"
     >
-      <div className="container pt-[4rem] lg:pt-[5rem]">
-        <div className="flex flex-col items-center justify-center gap-4 px-5 text-center md:text-justify lg:gap-10">
+      <div className="container py-20">
+        <div className="grid items-start gap-12 lg:grid-cols-[1.35fr_0.85fr]">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             viewport={{ once: true }}
-            className="text-4xl font-bold text-transparent xl:text-6xl bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text hover:from-pink-500 hover:to-orange-500"
+            className="space-y-6"
           >
-            <h1>About Me</h1>
+            <div className="space-y-3">
+              <p
+                className={`text-xs font-semibold uppercase tracking-[0.3em] ${
+                  darkMode ? "text-slate-300/80" : "text-slate-600"
+                }`}
+              >
+                About
+              </p>
+              <h2 className="text-3xl font-semibold md:text-5xl">
+                Tentang{" "}
+                <span className="gradient-text">Perjalanan</span> Saya
+              </h2>
+            </div>
+            <div
+              className={`space-y-5 text-sm leading-relaxed md:text-base ${
+                darkMode ? "text-slate-300" : "text-slate-600"
+              }`}
+            >
+              <p>
+                Saya adalah Pengembang Website dengan pengalaman lebih dari 3 tahun 
+                dalam pengembangan perangkat lunak dan web. Saat ini saya menempuh 
+                pendidikan S1 Teknik Informatika di Universitas Pamulang, 
+                sembari terus mengasah kemampuan teknis untuk membangun aplikasi dan website yang 
+                inovatif, efisien, dan mudah digunakan.
+              </p>
+              <p>
+                Sepanjang perjalanan karier saya terlibat dalam berbagai proyek mulai dari 
+                pembuatan website dinamis, sistem manajemen konten (CMS), hingga pengembangan 
+                aplikasi berbasis web yang berfokus pada user experience dan performa. 
+                Saya terbiasa bekerja dengan HTML, CSS, JavaScript, PHP, serta framework Next.js untuk 
+                merancang dan membangun solusi web yang andal, terstruktur, dan scalable.
+              </p>
+              <p>
+                Saat SMK saya juga meraih Juara 2 dalam Lomba Kompetisi Siswa Tingkat Provinsi, 
+                yang menguatkan kemampuan saya dalam berpikir analitis, berkolaborasi dalam tim, 
+                dan menyelesaikan tantangan teknis secara efektif. Pencapaian ini menjadi motivasi 
+                bagi saya untuk terus berkembang dan mengikuti tren teknologi terbaru.
+              </p>
+              <p>
+                Dengan kombinasi latar belakang akademik dan pengalaman praktis, 
+                saya siap berkontribusi dalam proyek pengembangan perangkat lunak, 
+                memberikan hasil kerja yang berkualitas, dan terus bertumbuh di industri teknologi.
+              </p>
+            </div>
           </motion.div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1, ease: "easeInOut", delay: 0.5 }}
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
             viewport={{ once: true }}
-            className="text-sm font-light tracking-wider md:text-md lg:text-lg"
+            className="space-y-6"
           >
-            Saya adalah Junior Website Developer dengan lebih dari 3 tahun
-            pengalaman dalam pengembangan perangkat lunak dan web. Saat ini,
-            saya sedang menempuh pendidikan S1 di Teknik Informatika di
-            Universitas Pamulang dan terus mengembangkan keterampilan teknis
-            saya dalam membangun aplikasi dan website yang inovatif dan efisien.
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1, ease: "easeInOut", delay: 1 }}
-            viewport={{ once: true }}
-            className="text-sm font-light tracking-wider md:text-md lg:text-lg"
-          >
-            Selama perjalanan saya, saya telah terlibat dalam berbagai proyek,
-            mulai dari pembuatan website dinamis, sistem manajemen konten (CMS),
-            hingga pengembangan aplikasi berbasis web yang mengutamakan user
-            experience dan kinerja optimal. Saya terbiasa bekerja dengan
-            teknologi seperti HTML, CSS, JavaScript, Php serta framework Next Js
-            untuk membangun solusi web yang handal.
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1, ease: "easeInOut", delay: 1.5 }}
-            viewport={{ once: true }}
-            className="text-sm font-light tracking-wider md:text-md lg:text-lg"
-          >
-            Pencapaian saya termasuk meraih Juara 2 dalam Lomba Kompetisi Siswa
-            Tingkat Provinsi yang membuktikan kemampuan saya dalam berpikir
-            analitis, berkolaborasi dalam tim, dan mengatasi tantangan teknis.
-            Pencapaian ini memotivasi saya untuk terus meningkatkan keterampilan
-            dan belajar lebih banyak tentang tren teknologi terbaru.
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1, ease: "easeInOut", delay: 2 }}
-            viewport={{ once: true }}
-            className="text-sm font-light tracking-wider md:text-md lg:text-lg"
-          >
-            Dengan latar belakang akademis yang kuat dan pengalaman praktis yang
-            terus berkembang, saya siap untuk berkontribusi dalam proyek
-            pengembangan perangkat lunak, terus belajar, dan berkembang di dunia
-            teknologi.
-          </motion.p>
+            <div className="glass-panel rounded-3xl p-6">
+              <p
+                className={`text-xs font-semibold uppercase tracking-[0.3em] ${
+                  darkMode ? "text-slate-300/80" : "text-slate-600"
+                }`}
+              >
+                Highlight
+              </p>
+              <ul className="mt-4 space-y-3 text-sm">
+                <li className="flex items-center justify-between">
+                  <span>Pengalaman</span>
+                  <span className="font-semibold">3+ tahun</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Pendidikan</span>
+                  <span className="font-semibold">S1 Informatika</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Prestasi</span>
+                  <span className="font-semibold">Juara 2 LKS</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="glass-panel rounded-3xl p-6">
+              <p
+                className={`text-xs font-semibold uppercase tracking-[0.3em] ${
+                  darkMode ? "text-slate-300/80" : "text-slate-600"
+                }`}
+              >
+                Core Tools
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["HTML", "CSS", "JavaScript", "PHP", "Next.js"].map(
+                  (item) => (
+                    <span key={item} className="pill">
+                      {item}
+                    </span>
+                  )
+                )}
+              </div>
+            </div>
+
+            <div className="glass-panel rounded-3xl p-6">
+              <p
+                className={`text-xs font-semibold uppercase tracking-[0.3em] ${
+                  darkMode ? "text-slate-300/80" : "text-slate-600"
+                }`}
+              >
+                Fokus
+              </p>
+              <p
+                className={`mt-4 text-sm leading-relaxed ${
+                  darkMode ? "text-slate-300" : "text-slate-600"
+                }`}
+              >
+                Mengutamakan pengalaman pengguna, performa, dan codebase yang
+                mudah dirawat.
+              </p>
+            </div>
+          </motion.div>
         </div>
       </div>
       <TimeLine />

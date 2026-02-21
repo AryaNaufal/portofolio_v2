@@ -7,8 +7,8 @@ import { FaCloudSun, FaCloudMoon } from "react-icons/fa";
 
 const spring = {
   type: "spring",
-  stiffness: 700,
-  damping: 30,
+  stiffness: 500,
+  damping: 35,
 };
 
 export default function DarkMode() {
@@ -26,18 +26,18 @@ export default function DarkMode() {
   }, [darkMode]);
 
   return (
-    <div
-      className={`switch ${
-        darkMode ? "bg-[#ffffff66]" : "bg-[#33333366]"
-      } block`}
+    <button
+      type="button"
+      aria-pressed={isOn}
+      className="switch block"
       data-ison={isOn}
       onClick={toggleSwitch}
     >
       <motion.div className="handle" layout transition={spring}>
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-full text-[0.7rem]">
           {isOn ? <FaCloudMoon /> : <FaCloudSun />}
         </div>
       </motion.div>
-    </div>
+    </button>
   );
 }
