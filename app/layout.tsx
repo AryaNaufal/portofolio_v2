@@ -20,7 +20,7 @@ const Montserrat = localFont({
   weight: "100 900",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aryanaufal.com";
 
 export const metadata: Metadata = {
   title: {
@@ -35,10 +35,11 @@ export const metadata: Metadata = {
     "Next.js",
     "Portfolio",
     "Web Developer Indonesia",
+    "Belajar HTML",
   ],
   authors: [{ name: "Arya Naufal" }],
   creator: "Arya Naufal",
-  metadataBase: siteUrl ? new URL(siteUrl) : undefined,
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: "Arya Naufal | Fullstack Web Developer",
     description:
@@ -72,6 +73,7 @@ export default function RootLayout({
     <html lang="id">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${Montserrat.variable} antialiased`}
+        cz-shortcut-listen="true"
       >
         <ThemeProvider>{children}</ThemeProvider>
       </body>

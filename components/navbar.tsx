@@ -1,40 +1,56 @@
 "use client";
+
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { useTheme } from "@/context/theme-context";
 import DarkMode from "./dark-mode";
 import { BsPersonExclamation } from "react-icons/bs";
 import { GoProjectRoadmap } from "react-icons/go";
-import { IoHomeOutline } from "react-icons/io5";
+import { IoHomeOutline, IoDocumentTextOutline } from "react-icons/io5";
 
-const menu = [
+const menuItems = [
   {
-    link: "#home",
+    link: "/#home",
     label: "Home",
     target: "home",
     icon: <IoHomeOutline />,
   },
   {
-    link: "#about",
+    link: "/#about",
     label: "About",
     target: "about",
     icon: <BsPersonExclamation />,
   },
-
   {
-    link: "#project",
+    link: "/#project",
     label: "Project",
     target: "project",
     icon: <GoProjectRoadmap />,
+  },
+  {
+    link: "/article",
+    label: "Article",
+    target: "article",
+    icon: <IoDocumentTextOutline />,
   },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const pathname = usePathname();
   const { darkMode } = useTheme();
 
   useEffect(() => {
+    // If we are on /article or /article/[id], active section is 'article'
+    if (pathname.startsWith("/article")) {
+      setActiveSection("article");
+      setScrolled(true);
+      return;
+    }
+
     const handleScroll = () => {
       if (window.scrollY > window.innerHeight) {
         setScrolled(true);
@@ -42,7 +58,9 @@ export default function Navbar() {
         setScrolled(false);
       }
 
-      const sections = menu.map((item) => document.getElementById(item.target));
+      const sections = menuItems
+        .filter((item) => item.target !== "article")
+        .map((item) => document.getElementById(item.target));
       const scrollPosition = window.scrollY + window.innerHeight / 2;
 
       let foundActiveSection = false;
@@ -70,7 +88,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [pathname]);
 
   const dark = scrolled
     ? "bg-[#0b0f14]/80 backdrop-blur-lg border-b border-white/5"
@@ -88,55 +106,53 @@ export default function Navbar() {
         aria-label="Primary"
       >
         <div className="container flex h-20 items-center justify-between">
-          <motion.a
-            href="#home"
-            className="cursor-pointer text-xl font-semibold md:text-2xl"
+          <motion.div
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.4 }}
-            style={{ color: darkMode ? "#F7F7F7" : "#0f172a" }}
           >
-            <h1>
-              Portofolio{" "}
-              <span className="gradient-text hidden sm:inline">Arya</span>
-            </h1>
-          </motion.a>
+            <Link
+              href="/#home"
+              className="cursor-pointer text-xl font-semibold md:text-2xl"
+              style={{ color: darkMode ? "#F7F7F7" : "#0f172a" }}
+            >
+              <h1>
+                <span className="gradient-text hidden sm:inline">Arya Naufal</span>
+              </h1>
+            </Link>
+          </motion.div>
 
           <div className="flex items-center gap-3">
             <div className="md:hidden">
               <DarkMode />
             </div>
             <ul className="hidden items-center gap-3 md:flex">
-              {menu.map((item) => (
-              <li
-                key={item.label}
-                className="px-4 py-2"
-              >
-                <motion.a
-                  href={item.link}
-                  aria-current={
-                    activeSection === item.target ? "page" : undefined
-                  }
-                  whileHover={{ y: -2 }}
-                  transition={{ duration: 0.3 }}
-                  className={`relative text-sm font-semibold tracking-wide ${
-                    activeSection === item.target
-                      ? "text-[color:var(--accent)]"
-                      : darkMode
-                      ? "text-white/80"
-                      : "text-slate-700"
-                  }`}
-                >
-                  {item.label}
-                  <span
-                    className={`absolute left-0 top-full mt-2 h-[2px] w-full bg-gradient-to-r from-teal-500 to-amber-400 transition-opacity duration-400 ${
-                      activeSection === item.target
-                        ? "opacity-100"
-                        : "opacity-0"
-                    }`}
-                  ></span>
-                </motion.a>
-              </li>
-            ))}
+              {menuItems.map((item) => {
+                const isActive = activeSection === item.target;
+                return (
+                  <li key={item.label} className="px-4 py-2">
+                    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.3 }}>
+                      <Link
+                        href={item.link}
+                        aria-current={isActive ? "page" : undefined}
+                        className={`relative text-sm font-semibold tracking-wide ${
+                          isActive
+                            ? "text-[color:var(--accent)]"
+                            : darkMode
+                            ? "text-white/80"
+                            : "text-slate-700"
+                        }`}
+                      >
+                        {item.label}
+                        <span
+                          className={`absolute left-0 top-full mt-2 h-[2px] w-full bg-gradient-to-r from-teal-500 to-amber-400 transition-opacity duration-400 ${
+                            isActive ? "opacity-100" : "opacity-0"
+                          }`}
+                        ></span>
+                      </Link>
+                    </motion.div>
+                  </li>
+                );
+              })}
               <li>
                 <DarkMode />
               </li>
@@ -152,26 +168,33 @@ export default function Navbar() {
         style={{ bottom: "calc(1rem + env(safe-area-inset-bottom))" }}
       >
         <div className="glass-panel flex items-center justify-between rounded-full px-4 py-2">
-          {menu.map((item) => (
-            <motion.a
-              key={item.label}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              href={item.link}
-              aria-current={activeSection === item.target ? "page" : undefined}
-              className={`flex flex-1 flex-col items-center gap-1 rounded-full px-3 py-2 text-[0.7rem] font-semibold transition-all duration-400 ${
-                activeSection === item.target
-                  ? "bg-gradient-to-r from-teal-500 to-amber-400 text-slate-900 shadow-lg shadow-amber-500/20"
-                  : darkMode
-                  ? "text-white/80"
-                  : "text-slate-700"
-              }`}
-            >
-              <span className="text-base">{item.icon}</span>
-              {item.label}
-            </motion.a>
-          ))}
+          {menuItems.map((item) => {
+            const isActive = activeSection === item.target;
+            return (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                className="flex-1"
+              >
+                <Link
+                  href={item.link}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`flex flex-col items-center gap-1 rounded-full px-3 py-2 text-[0.7rem] font-semibold transition-all duration-400 ${
+                    isActive
+                      ? "bg-gradient-to-r from-teal-500 to-amber-400 text-slate-900 shadow-lg shadow-amber-500/20"
+                      : darkMode
+                      ? "text-white/80"
+                      : "text-slate-700"
+                  }`}
+                >
+                  <span className="text-base">{item.icon}</span>
+                  {item.label}
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
       </nav>
     </>
