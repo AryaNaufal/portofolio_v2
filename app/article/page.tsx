@@ -5,20 +5,20 @@ import Footer from "@/components/footer";
 import { getAllArticles } from "@/lib/markdown";
 
 export const metadata: Metadata = {
-  title: "Katalog Artikel & Wawasan Tech",
+  title: "Pusat Panduan & Edukasi Tech",
   description:
-    "Jelajahi panduan lengkap belajar HTML5, web development, dan wawasan pemrograman terbaru karya Arya Naufal.",
+    "Jelajahi panduan lengkap, tutorial pemrograman, dan wawasan teknologi terbaru karya Arya Naufal.",
   openGraph: {
-    title: "Katalog Artikel & Wawasan Tech | Arya Naufal",
+    title: "Pusat Panduan & Edukasi Tech | Arya Naufal",
     description:
-      "Jelajahi panduan lengkap belajar HTML5, web development, dan wawasan pemrograman terbaru karya Arya Naufal.",
+      "Jelajahi panduan lengkap, tutorial pemrograman, dan wawasan teknologi terbaru karya Arya Naufal.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Katalog Artikel & Wawasan Tech | Arya Naufal",
+    title: "Pusat Panduan & Edukasi Tech | Arya Naufal",
     description:
-      "Jelajahi panduan lengkap belajar HTML5, web development, dan wawasan pemrograman terbaru karya Arya Naufal.",
+      "Jelajahi panduan lengkap, tutorial pemrograman, dan wawasan teknologi terbaru karya Arya Naufal.",
   },
 };
 
