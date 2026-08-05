@@ -1,73 +1,83 @@
 ---
 id: "css-02-selectors-dan-cara-memilih"
-title: "CSS 02: Memahami CSS Selectors (Cara Memilih Elemen)"
+title: "CSS 02: Menguasai CSS Selectors (Cara Memilih Elemen)"
 category: "Web Development"
 date: "05 Agu 2026"
-readTime: "5 min read"
+readTime: "8 min read"
 author: "Arya Naufal"
 authorRole: "Web Developer & Instructor"
 authorAvatar: "/my_profile.jpg"
 image: "/logo_css.png"
 featured: false
-excerpt: "Pelajari cara memilih elemen HTML spesifik menggunakan Element Selector, Class Selector (.kelas), ID Selector (#id), serta Universal Selector dengan analogi nama siswa di kelas."
+excerpt: "Panduan lengkap memilih elemen HTML: Menguasai Element Selector, Class Selector (.kelas), ID Selector (#id), Combinator, Pseudo-classes (:hover), dan Spesifisitas."
 ---
 
-Sebelum Anda bisa mewarnai atau mengatur ukuran suatu teks, Anda harus memberitahu komputer **elemen mana yang ingin Anda ubah**. Di dalam CSS, aturan penunjukan ini disebut **Selector**.
+Sebelum Anda dapat mengubah warna cat atau mengatur ukuran suatu tulisan, Anda harus memberitahu browser **elemen spesifik mana yang ingin Anda ubah**. Di dalam CSS, mekanisme penunjukan ini disebut **Selector**.
 
-## 1. Analogi Nama Siswa di Kelas
+Kemampuan memilih elemen secara akurat adalah keterampilan paling membedakan antara pengembang pemula dan pengembang berpengalaman.
 
-Bayangkan seorang guru di dalam kelas:
+---
 
-- **Element Selector**: *"Semua siswa yang pakai baju putih, berdiri!"* (Memilih semua elemen sejenis).
-- **Class Selector (`.`)**: *"Siswa yang punya stiker kelompom 'Tim-Juara', maju ke depan!"* (Memilih sekelompok elemen tertentu).
-- **ID Selector (`#`)**: *"Siswa dengan nomor induk siswa 101, maju!"* (Memilih hanya 1 elemen unik yang sangat spesifik).
+## 1. Analogi Pemanggilan Siswa di Ruang Kelas
 
-## 2. Jenis-Jenis CSS Selector Utama
+Bayangkan seorang Wali Kelas di depan kelas:
+
+- **Element Selector**: *"Semua siswa yang pakai baju putih, berdiri!"* (Memilih seluruh elemen sejenis di seluruh halaman).
+- **Class Selector (`.`)**: *"Siswa yang punya stiker kelompok 'Tim-Futsal', maju ke depan!"* (Memilih sekelompok elemen tertentu yang bisa berjumlah banyak).
+- **ID Selector (`#`)**: *"Siswa bernama Budi dengan Nomor Induk 001, maju!"* (Memilih hanya **1 elemen unik** yang sangat spesifik).
+
+---
+
+## 2. Bedah 5 Jenis CSS Selector Utama
 
 ### A. Element / Tag Selector
-Mengubah seluruh elemen berdasarkan nama tag HTML nya.
+Menunjuk seluruh elemen berdasarkan nama tag HTML nya tanpa tambahan simbol apa pun.
 
 ```css
 /* Mengubah warna semua paragraf <p> di website */
 p {
     color: #475569;
-    font-size: 16px;
+    line-height: 1.6;
 }
 ```
 
-### B. Class Selector (Menggunakan Titik `.`)
-Digunakan untuk memberi gaya pada elemen yang memiliki atribut `class="..."`. Satu nama class bisa dipakai oleh banyak elemen.
+### B. Class Selector (Menggunakan Simbol Titik `.`)
+Digunakan untuk memberi gaya pada elemen yang memiliki atribut `class="..."`. Satu nama class dapat dipakai oleh **banyak elemen sekaligus** di seluruh halaman!
 
+HTML:
 ```html
-<p class="teks-penting">Ini paragraf penting.</p>
-<button class="teks-penting">Tombol Penting</button>
+<p class="teks-sorot">Paragraf dengan kelas sorot.</p>
+<button class="teks-sorot">Tombol dengan kelas sorot</button>
 ```
 
+CSS:
 ```css
-/* Mengubah semua elemen ber-class teks-penting */
-.teks-penting {
-    color: #f59e0b;
+/* Menunjuk seluruh elemen yang ber-class teks-sorot */
+.teks-sorot {
+    color: #14b8a6;
     font-weight: bold;
 }
 ```
 
-### C. ID Selector (Menggunakan Pagar `#`)
-Digunakan untuk 1 elemen yang sangat unik menggunakan atribut `id="..."`. Nama ID hanya boleh ada 1 per halaman.
+### C. ID Selector (Menggunakan Simbol Pagar `#`)
+Digunakan untuk menunjuk elemen unik yang memiliki atribut `id="..."`. Nama ID **hanya boleh digunakan oleh 1 elemen per halaman web**!
 
+HTML:
 ```html
-<h1 id="judul-halaman">Judul Utama Situs</h1>
+<h1 id="judul-utama-situs">Portofolio Arya Naufal</h1>
 ```
 
+CSS:
 ```css
-/* Mengubah hanya elemen ber-ID judul-halaman */
-#judul-halaman {
-    color: #14b8a6;
+/* Menunjuk hanya 1 elemen ber-ID judul-utama-situs */
+#judul-utama-situs {
+    color: #f59e0b;
     font-size: 36px;
 }
 ```
 
-### D. Universal Selector (Bintang `*`)
-Memilih **seluruh elemen tanpa terkecuali** di dalam halaman web. Sering digunakan untuk reset margin.
+### D. Universal Selector (Simbol Bintang `*`)
+Menunjuk **seluruh elemen tanpa terkecuali** di dalam halaman web. Sering digunakan di baris paling atas CSS untuk mereset margin default browser.
 
 ```css
 * {
@@ -77,7 +87,56 @@ Memilih **seluruh elemen tanpa terkecuali** di dalam halaman web. Sering digunak
 }
 ```
 
+### E. Grouping Selector (Menggunakan Koma `,`)
+Jika Anda memiliki beberapa elemen yang berbagi gaya yang sama, gabungkan menggunakan koma agar kode tidak berulang:
+
+```css
+/* Mengubah judul h1, h2, dan h3 sekaligus */
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: #0f172a;
+}
+```
+
 ---
 
-### Kesimpulan Ringkas
-Gunakan **Class Selector (`.`)** sebagai pilihan utama untuk menghias elemen website karena fleksibel dan bisa digunakan berulang kali.
+## 3. Pseudo-Classes Interaktif (`:hover`, `:active`, `:focus`)
+
+Pseudo-class digunakan untuk mengubah gaya elemen saat terjadi **interaksi dari pengguna**:
+
+```css
+.tombol-aksi {
+    background-color: #14b8a6;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+/* Gaya saat kursor mouse diarahkan di atas tombol */
+.tombol-aksi:hover {
+    background-color: #0d9488;
+}
+
+/* Gaya saat tombol diklik ditekan */
+.tombol-aksi:active {
+    transform: scale(0.98);
+}
+```
+
+---
+
+## 4. Memahami Perhitungan Spesifisitas (Specificity)
+
+Jika ada dua aturan CSS yang bentrok menunjuk elemen yang sama, siapakah yang menang?
+
+1. **Inline Style (`style="..."`)** $\rightarrow$ Skor: 1000 (Paling Kuat)
+2. **ID Selector (`#id`)** $\rightarrow$ Skor: 100
+3. **Class / Attribute Selector (`.class`)** $\rightarrow$ Skor: 10
+4. **Element Selector (`h1`, `p`)** $\rightarrow$ Skor: 1 (Paling Lemah)
+
+---
+
+## 💡 Rangkuman & Praktik Terbaik
+
+1. **Gunakan Class Selector (`.`)** sebagai pilihan utama penulisan CSS sehari-hari karena sangat fleksibel dan re-usable.
+2. Hindari penggunaan ID Selector untuk penulisan gaya visual biasa.
+3. Hindari penggunaan kata kunci `!important` kecuali dalam kondisi darurat override library luar.

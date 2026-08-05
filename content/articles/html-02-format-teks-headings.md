@@ -1,66 +1,122 @@
 ---
 id: "html-02-format-teks-headings"
-title: "HTML 02: Cara Menulis Judul, Paragraf & Teks Tebal"
+title: "HTML 02: Memahami Judul (Heading), Paragraf & Formatting Teks"
 category: "Web Development"
 date: "05 Agu 2026"
-readTime: "4 min read"
+readTime: "8 min read"
 author: "Arya Naufal"
 authorRole: "Web Developer & Instructor"
 authorAvatar: "/my_profile.jpg"
 image: "/logo_html.png"
 featured: false
-excerpt: "Panduan praktis menulis judul artikel yang rapi dengan Heading (H1-H6), membuat paragraf baru, serta menebalkan atau memiringkan kata dengan bahasa yang sangat mudah dimengerti."
+excerpt: "Panduan praktis memformat tulisan pada halaman web: Hirarki tag heading (h1-h6), teknik pembagian paragraf, line break, dan penekanan teks penting."
 ---
 
-Setelah memahami kerangka dasar website di modul pertama, sekarang saatnya kita belajar cara menyusun teks bacaan agar terlihat rapi dan nyaman dibaca oleh pengunjung.
+Setiap halaman web yang nyaman dibaca pasti memiliki tata letak tulisan yang teratur. Bayangkan jika Anda membaca koran atau majalah yang seluruh tulisannya berukuran sama tanpa ada judul berita maupun alinea—tentu sangat membingungkan, bukan?
 
-## 1. Menulis Judul Tulisan (Tag Heading H1 sampai H6)
+Di modul ini, kita akan mempelajari cara menyusun hirarki judul, membagi paragraf, dan memberi penekanan pada kata-kata penting.
 
-Bayangkan saat Anda sedang membaca **Koran** atau **Buku Pelajaran**:
+---
 
-- **Judul Utama Koran** ukuran tulisan yang paling besar disebut `<h1>`.
-- **Judul Bab / Topik** ukuran sedang disebut `<h2>`.
-- **Anak Sub-Bab** ukuran lebih kecil disebut `<h3>`, dan seterusnya hingga `<h6>`.
+## 1. Hirarki Tag Heading (`<h1>` sampai `<h6>`)
 
-Berikut contoh penulisannya di HTML:
+HTML menyediakan 6 tingkatan tag judul (*Heading*), mulai dari `<h1>` yang paling besar dan penting, hingga `<h6>` yang paling kecil.
 
 ```html
-<h1>Judul Utama Artikel Anda (Ukuran Paling Besar)</h1>
-<h2>Sub-Judul Bagian Utama (H2)</h2>
-<h3>Sub-Bagian Detail Topik (H3)</h3>
-<h4>Judul Kecil (H4)</h4>
-<h5>Judul Lebih Kecil (H5)</h5>
-<h6>Judul Terkecil (H6)</h6>
+<h1>Judul Utama Artikel (H1)</h1>
+<h2>Sub-Bab Utama (H2)</h2>
+<h3>Sub-Topik Detail (H3)</h3>
+<h4>Sub-Sub Topik (H4)</h4>
+<h5>Topik Kecil (H5)</h5>
+<h6>Topik Paling Kecil (H6)</h6>
 ```
 
-> 💡 **Tips Pemula:** Di setiap halaman web, usahakan hanya ada **1 buah `<h1>`** saja (yaitu judul utama artikel), agar mesin pencari Google tidak bingung menentukan topik utama artikel Anda.
+### 📰 Analogi Koran & Majalah
 
-## 2. Menulis Paragraf dan Pindah Baris
+- **`<h1>` (Judul Berita Utama Koran)**: Hanya boleh ada **satu `<h1>` per halaman web**. Digunakan untuk judul utama artikel. Ini sangat penting untuk SEO Google!
+- **`<h2>` (Sub-Judul / Bab Baru)**: Digunakan untuk membagi artikel menjadi beberapa bagian topik utama.
+- **`<h3>` (Sub-Topik di Dalam Bab)**: Digunakan untuk rincian bagian di bawah `<h2>`.
 
-Untuk membuat paragraf tulisan biasa, kita menggunakan tag `<p>` (singkatan dari *Paragraph*). 
+> 💡 **Aturan Emas SEO:** Jangan pernah memilih tag heading hanya karena ingin tulisannya berukuran besar. Gunakan heading berdasarkan **hirarki struktur artikel**, bukan untuk hiasan visual semata!
 
-Jika Anda ingin berpindah baris di dalam paragraf yang sama (seperti menekan tombol `Shift + Enter` di Word), gunakan tag `<br>` (*Break*):
+---
 
-```html
-<p>Ini adalah paragraf pertama yang berisi kalimat penjelasan.</p>
+## 2. Paragraf (`<p>`) dan Pindah Baris (`<br>`)
 
-<p>Ini adalah paragraf kedua.<br>Baris ini berada tepat di bawahnya tanpa membuat jarak paragraf baru.</p>
-```
-
-## 3. Memberikan Efek Pada Kata (Tebal, Miring & Stabilo)
-
-Agar tulisan Anda lebih menarik dan kata kunci penting mudah ditemukan mata pembaca, kita bisa memberi format khusus:
+### A. Tag Paragraf (`<p>`)
+Tag `<p>` digunakan untuk membungkus satu blok paragraf bacaan. Secara otomatis, browser akan memberikan jarak spasi margin di atas dan di bawah elemen ini agar bacaan terasa lega.
 
 ```html
 <p>
-  Teks ini mengandung kata <strong>sangat penting (Cetak Tebal)</strong>.<br>
-  Teks ini dicetak <em>miring (Italic)</em> untuk memberi penekanan.<br>
-  Teks ini diberi <mark>warna stabilo kuning (Highlight)</mark>.<br>
-  Teks ini <del>dicoret (Strikethrough)</del> karena sudah tidak berlaku.
+    HTML adalah bahasa penandaan standar untuk membuat halaman web. 
+    Dengan HTML, Anda bisa menyusun tulisan dan media secara terstruktur.
+</p>
+
+<p>
+    Ini adalah paragraf kedua. Jarak antar paragraf akan otomatis 
+    diatur oleh peramban tanpa perlu menambahkan spasi manual.
+</p>
+```
+
+### B. Line Break (`<br>`) - Tag Tanpa Penutup
+Jika Anda ingin membuat baris baru **tanpa membuat paragraf baru** (seperti saat menulis bait puisi atau alamat rumah), gunakan tag `<br>` (*Break*). Tag ini adalah tag mandiri tanpa tag penutup.
+
+```html
+<p>
+    Jl. Merdeka No. 45<br>
+    Kecamatan Serpong, Kota Tangerang Selatan<br>
+    Banten, Indonesia
 </p>
 ```
 
 ---
 
-### Kesimpulan Ringkas
-Membuat teks yang rapi di HTML sangatlah mudah! Cukup gunakan `<h1>-<h6>` untuk judul, `<p>` untuk paragraf, dan `<strong>` untuk menebalkan kata penting.
+## 3. Formatting Penekanan Teks (Semantic Text Styling)
+
+Untuk memberi tekanan atau gaya khusus pada kata tertentu di dalam paragraf, gunakan tag elemen teks berikut:
+
+```html
+<p>
+    Belajar koding itu <strong>sangat penting</strong> untuk masa depan. 
+    Pastikan Anda <em>konsisten latihan setiap hari</em>. 
+    Jangan lupa membaca <mark>dokumentasi resmi</mark> HTML5!
+</p>
+```
+
+- **`<strong>`**: Memberikan penekanan **teks tebal (bold)** yang menandakan kalimat tersebut sangat penting atau krusial.
+- **`<em>` (Emphasis)**: Memberikan penekanan **teks miring (italic)** pada kata asing, istilah teknis, atau penekanan nada bicara.
+- **`<mark>`**: Memberikan efek **stabilo/highlighter kuning** pada kata kunci penting.
+- **`<del>` (Deleted)**: Memberikan efek **teks dicoret** (cocok untuk menampilkan diskon harga produk lama).
+- **`<ins>` (Inserted)**: Memberikan efek **teks bergaris bawah** untuk menandakan revisi harga baru.
+
+```html
+<!-- Contoh Kasus Diskon Toko Online -->
+<p>
+    Harga Spesial: <del>Rp 500.000</del> <ins>Rp 250.000</ins>!
+</p>
+```
+
+---
+
+## 4. Garis Pemisah Horizontal (`<hr>`)
+
+Jika Anda ingin memberikan garis pembatas visual antara satu bagian bab dengan bab berikutnya, gunakan tag `<hr>` (*Horizontal Rule*).
+
+```html
+<h2>Bab 1: Dasar HTML</h2>
+<p>Isi penjelasan bab 1...</p>
+
+<!-- Garis Pemisah Horizontal -->
+<hr>
+
+<h2>Bab 2: Lanjutan HTML</h2>
+<p>Isi penjelasan bab 2...</p>
+```
+
+---
+
+## 💡 Rangkuman & Praktik Terbaik
+
+1. Selalu gunakan **satu `<h1>`** di setiap halaman web.
+2. Gunakan `<strong>` alih-alih tag `<b>` lama, dan `<em>` alih-alih `<i>` lama demi standar **Semantic Web**.
+3. Bungkus setiap alinea dengan tag `<p>` agar dokumen Anda rapi dan rapi saat dibaca oleh peramban.
