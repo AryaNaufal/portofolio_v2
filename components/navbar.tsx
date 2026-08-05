@@ -144,7 +144,7 @@ export default function Navbar() {
                       >
                         {item.label}
                         <span
-                          className={`absolute left-0 top-full mt-2 h-[2px] w-full bg-gradient-to-r from-teal-500 to-amber-400 transition-opacity duration-400 ${
+                          className={`absolute left-0 top-full mt-2 h-[2px] w-full bg-teal-500 transition-opacity duration-400 ${
                             isActive ? "opacity-100" : "opacity-0"
                           }`}
                         ></span>
@@ -183,7 +183,7 @@ export default function Navbar() {
                   aria-current={isActive ? "page" : undefined}
                   className={`flex flex-col items-center gap-1 rounded-full px-3 py-2 text-[0.7rem] font-semibold transition-all duration-400 ${
                     isActive
-                      ? "bg-gradient-to-r from-teal-500 to-amber-400 text-slate-900 shadow-lg shadow-amber-500/20"
+                      ? "bg-teal-500 text-white shadow-lg"
                       : darkMode
                       ? "text-white/80"
                       : "text-slate-700"

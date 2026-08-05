@@ -135,7 +135,7 @@ export default function ArticleSection() {
         <div className="mt-12 flex justify-center">
           <Link
             href="/article"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-500 to-amber-400 px-6 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-amber-500/10 transition-all duration-300 hover:scale-105 hover:shadow-amber-500/25 tracking-wider"
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r bg-teal-500 px-6 py-3 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 tracking-wider"
           >
             Lihat Semua Artikel
             <IoArrowForward className="text-base" />

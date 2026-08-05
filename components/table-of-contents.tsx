@@ -129,7 +129,7 @@ export default function TableOfContents({
                   item.level === 3 ? "pl-6 text-xs" : "font-semibold"
                 } ${
                   isActive
-                    ? "bg-gradient-to-r from-teal-500/20 to-amber-500/20 text-[color:var(--accent)] font-bold border-l-2 border-teal-500 pl-3"
+                    ? "bg-gradient-to-r from-teal-500/20 to-teal-500/20 text-[color:var(--accent)] font-bold border border-teal-500 pl-3"
                     : darkMode
                     ? "text-slate-300 hover:bg-slate-800/60 hover:text-teal-300"
                     : "text-slate-700 hover:bg-slate-100 hover:text-teal-700"

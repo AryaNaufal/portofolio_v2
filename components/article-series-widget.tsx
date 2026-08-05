@@ -62,14 +62,14 @@ export default function ArticleSeriesWidget({
               href={`/article/${item.id}`}
               className={`group flex items-start gap-2.5 rounded-xl px-2.5 py-2 transition-all duration-200 ${
                 isCurrent
-                  ? "bg-gradient-to-r from-teal-500/20 to-amber-500/20 text-[color:var(--accent)] font-bold border-l-2 border-teal-500 pl-3"
+                  ? "bg-gradient-to-r from-teal-500/20 to-teal-500/20 text-[color:var(--accent)] font-bold border border-teal-500 pl-3"
                   : darkMode
                   ? "text-slate-300 hover:bg-slate-800/60 hover:text-teal-300"
                   : "text-slate-700 hover:bg-slate-100 hover:text-teal-700"
               }`}
             >
               {isCurrent ? (
-                <IoCheckmarkCircle className="text-teal-400 text-sm mt-0.5 shrink-0" />
+                <IoCheckmarkCircle className="text-teal-500 text-sm mt-0.5 shrink-0" />
               ) : (
                 <span className="font-mono text-[10px] text-slate-400 mt-0.5 shrink-0">
                   {moduleNum}.

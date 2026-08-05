@@ -126,7 +126,7 @@ export default function Hero() {
               <motion.a
                 href="/CV Arya Naufal.pdf"
                 download="CV Arya Naufal.pdf"
-                className="rounded-full bg-gradient-to-r from-teal-500 to-amber-400 px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-amber-500/20 transition-transform duration-400 hover:-translate-y-0.5"
+                className="rounded-full bg-gradient-to-r bg-teal-500 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-transform duration-400 hover:-translate-y-0.5"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
