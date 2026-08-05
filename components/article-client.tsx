@@ -164,7 +164,7 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
           </motion.div>
         </div>
 
-        {/* Series Tab Switcher Bar */}
+        {/* Series Tab Switcher Bar - Theme Adaptive Styling */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           {[
             { id: "Semua Seri", label: "Semua Seri", icon: IoLayersOutline, count: articles.length },
@@ -179,7 +179,9 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
                 onClick={() => setSelectedSeries(tab.id)}
                 className={`flex items-center gap-2 rounded-2xl px-5 py-2.5 text-xs font-bold tracking-wide transition-all duration-300 ${
                   isActive
-                    ? "bg-gradient-to-r bg-teal-500 text-white shadow-lg scale-105"
+                    ? darkMode
+                      ? "bg-teal-500/20 text-teal-300 border border-teal-500/50 shadow-md shadow-teal-500/10 scale-105"
+                      : "bg-teal-600 text-white border border-teal-700 shadow-md shadow-teal-600/20 scale-105"
                     : darkMode
                     ? "bg-slate-900/80 text-slate-300 hover:bg-slate-800 border border-slate-800"
                     : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-sm"
@@ -190,7 +192,9 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
                 <span
                   className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${
                     isActive
-                      ? "bg-slate-950/20 text-white"
+                      ? darkMode
+                        ? "bg-teal-400/20 text-teal-200"
+                        : "bg-white/20 text-white"
                       : darkMode
                       ? "bg-slate-800 text-slate-400"
                       : "bg-slate-100 text-slate-600"
@@ -212,7 +216,7 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
             className="mt-10"
           >
             <div className="glass-panel group relative overflow-hidden rounded-3xl p-6 md:p-8 transition-transform duration-400 hover:-translate-y-1">
-              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r bg-teal-500"></div>
+              <div className="absolute inset-x-0 top-0 h-1 bg-teal-500"></div>
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 {/* Article Thumbnail */}
@@ -226,7 +230,9 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                  <span className="absolute top-4 left-4 rounded-full bg-gradient-to-r bg-teal-500 px-3 py-1 text-xs font-bold text-white uppercase tracking-widest shadow-md">
+                  <span className={`absolute top-4 left-4 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest shadow-md ${
+                    darkMode ? "bg-teal-500/30 text-teal-200 border border-teal-400/40 backdrop-blur-md" : "bg-teal-600 text-white"
+                  }`}>
                     Featured
                   </span>
                 </div>
@@ -271,7 +277,11 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
 
                     <Link
                       href={`/article/${featuredArticle.id}`}
-                      className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r bg-teal-500 px-5 py-2.5 text-xs font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 tracking-wider"
+                      className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold shadow-md transition-all duration-300 hover:scale-105 tracking-wider ${
+                        darkMode
+                          ? "bg-teal-500 text-slate-950 hover:bg-teal-400 shadow-teal-500/20"
+                          : "bg-teal-600 text-white hover:bg-teal-700 shadow-teal-600/20"
+                      }`}
                     >
                       Baca Artikel
                       <IoArrowForward className="text-sm" />
@@ -285,23 +295,28 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
 
         {/* Filter & Search Bar */}
         <div id="articles-grid-top" className="mt-12 flex flex-col md:flex-row md:items-center justify-between gap-6 scroll-mt-28">
-          {/* Dynamic Categories */}
+          {/* Dynamic Categories - Theme Adaptive Active Styling */}
           <div className="flex flex-wrap items-center gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 ${
-                  selectedCategory === cat
-                    ? "bg-gradient-to-r bg-teal-500 text-white shadow-md"
-                    : darkMode
-                    ? "bg-slate-800/60 text-slate-300 hover:bg-slate-700/60"
-                    : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const isSelected = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`rounded-full px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 ${
+                    isSelected
+                      ? darkMode
+                        ? "bg-teal-500/20 text-teal-300 border border-teal-500/50 font-bold shadow-sm"
+                        : "bg-teal-600 text-white border border-teal-700 font-bold shadow-sm shadow-teal-600/20"
+                      : darkMode
+                      ? "bg-slate-800/60 text-slate-300 hover:bg-slate-700/60"
+                      : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
 
           {/* Debounced Search Input */}
@@ -423,7 +438,7 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
 
                   <Link
                     href={`/article/${article.id}`}
-                    className="inline-flex items-center gap-1 text-xs font-bold tracking-wider text-[color:var(--accent)] transition-colors duration-300"
+                    className="inline-flex items-center gap-1 text-xs font-bold tracking-wider text-[color:var(--accent)] transition-colors duration-300 hover:text-[color:var(--accent-2)]"
                   >
                     Baca
                     <IoArrowForward className="text-sm transition-transform duration-300 group-hover:translate-x-1" />
@@ -438,7 +453,9 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
               </p>
               <button
                 onClick={handleResetFilters}
-                className="mt-4 rounded-full bg-gradient-to-r bg-teal-500 px-5 py-2 text-xs font-bold text-white tracking-wider"
+                className={`mt-4 rounded-full px-5 py-2 text-xs font-bold tracking-wider transition-colors ${
+                  darkMode ? "bg-teal-500 text-slate-950 hover:bg-teal-400" : "bg-teal-600 text-white hover:bg-teal-700"
+                }`}
               >
                 Reset Filter
               </button>
@@ -470,7 +487,7 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
                 Sebelumnya
               </button>
 
-              {/* Numbered Page Buttons */}
+              {/* Numbered Page Buttons - Theme Adaptive Styling */}
               <div className="flex items-center gap-1.5">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                   <button
@@ -478,7 +495,9 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
                     onClick={() => handlePageChange(pageNum)}
                     className={`h-8 w-8 rounded-full text-xs font-bold transition-all duration-300 ${
                       currentPage === pageNum
-                        ? "bg-gradient-to-r bg-teal-500 text-white shadow-md scale-105"
+                        ? darkMode
+                          ? "bg-teal-500/20 text-teal-300 border border-teal-500/50 font-bold shadow-sm scale-105"
+                          : "bg-teal-600 text-white font-bold shadow-sm shadow-teal-600/20 scale-105"
                         : darkMode
                         ? "bg-slate-800/80 text-slate-300 hover:bg-slate-700"
                         : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
