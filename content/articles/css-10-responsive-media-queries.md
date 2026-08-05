@@ -12,7 +12,7 @@ featured: false
 excerpt: "Panduan praktis perancangan Responsive Web Design: Menguasai Media Queries (@media), strategi Mobile-First, breakpoint standar industri, dan pengujian layar."
 ---
 
-Di era digital saat ini, lebih dari 65% lalu lintas internet di seluruh dunia berasal dari perangkat Smartphone (*HP*). Oleh karena itu, sebuah website **wajib bersifat responsif**—artinya bentuk tata letaknya bisa beradaptasi secara otomatis saat dibuka dari layar HP kecil, Tablet, Laptop, hingga Monitor TV Raksasa.
+Di era digital saat ini, lebih dari 65% lalu lintas internet di seluruh dunia berasal dari perangkat Smartphone (*HP*). Oleh karena itu, sebuah website **wajib bersifat responsif** - artinya bentuk tata letaknya bisa beradaptasi secara otomatis saat dibuka dari layar HP kecil, Tablet, Laptop, hingga Monitor TV Raksasa.
 
 Di modul penutup ini, kita akan menguasai teknik **Responsive Web Design** menggunakan **Media Queries**.
 

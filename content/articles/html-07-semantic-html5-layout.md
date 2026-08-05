@@ -14,7 +14,7 @@ excerpt: "Panduan praktis merancang denah tata letak website modern menggunakan 
 
 Di era awal web development, para pengembang membuat tata letak website dengan membungkus seluruh elemen menggunakan tag polos `<div>` berlebihan (dikenal sebagai istilah *Div Soup*). Hal ini membuat kode sangat sulit dibaca oleh sesama developer maupun oleh mesin pencari Google.
 
-Sejak hadirnya **HTML5**, diperkenalkanlah elemen **Semantic HTML**—yaitu tag-tag penanda yang memiliki arti makna yang sangat jelas tentang bagian konten tersebut.
+Sejak hadirnya **HTML5**, diperkenalkanlah elemen **Semantic HTML** - yaitu tag-tag penanda yang memiliki arti makna yang sangat jelas tentang bagian konten tersebut.
 
 ---
 

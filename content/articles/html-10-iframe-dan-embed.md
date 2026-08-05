@@ -23,7 +23,7 @@ Teknologi di balik fitur penyematan tersebut adalah tag `<iframe>` (*Inline Fram
 Bayangkan rumah Anda memiliki **Jendela Kaca Transparan** di dinding:
 
 - Melalui jendela kaca tersebut, Anda bisa melihat pemandangan kebun tetangga di luar tanpa perlu melangkah keluar dari rumah Anda.
-- Tag `<iframe>` bertindak persis seperti jendela kaca tersebut—tag ini memungkinkan Anda **menampilkan dokumen halaman web lain** langsung di dalam jendela kotak situs Anda sendiri.
+- Tag `<iframe>` bertindak persis seperti jendela kaca tersebut - tag ini memungkinkan Anda **menampilkan dokumen halaman web lain** langsung di dalam jendela kotak situs Anda sendiri.
 
 ---
 

@@ -12,7 +12,7 @@ featured: false
 excerpt: "Panduan presisi memosisikan elemen di layar: Menguasai position static, relative, absolute, fixed (tombol melayang), sticky (navbar), dan tumpukan lapisan z-index."
 ---
 
-Secara bawaan, elemen HTML disusun mengalir secara berurutan dari atas ke bawah. Namun di dunia nyata, sering kali kita ingin memosisikan elemen secara bebas di sudut tertentu—seperti menaruh **Badge Diskon** di sudut kanan atas kartu gambar, membuat **Navbar Melayang** di atas layar, atau memasang **Tombol Chat WhatsApp** di sudut kanan bawah.
+Secara bawaan, elemen HTML disusun mengalir secara berurutan dari atas ke bawah. Namun di dunia nyata, sering kali kita ingin memosisikan elemen secara bebas di sudut tertentu - seperti menaruh **Badge Diskon** di sudut kanan atas kartu gambar, membuat **Navbar Melayang** di atas layar, atau memasang **Tombol Chat WhatsApp** di sudut kanan bawah.
 
 Di sinilah properti `position` mengambil peran vital.
 

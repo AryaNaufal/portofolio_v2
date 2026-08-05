@@ -12,7 +12,7 @@ featured: false
 excerpt: "Panduan praktis membuat formulir pendaftaran interaktif: Menguasai tag form, berbagai tipe input (text, email, password, radio, checkbox, date), select dropdown, textarea, dan atribut validasi."
 ---
 
-Formulir adalah satu-satunya jembatan interaksi dua arah di dalam HTML yang memungkinkan pengunjung web mengirimkan data ke sistem Anda—mulai dari pendaftaran akun baru, login, pencarian barang, hingga transaksi pembayaran online.
+Formulir adalah satu-satunya jembatan interaksi dua arah di dalam HTML yang memungkinkan pengunjung web mengirimkan data ke sistem Anda - mulai dari pendaftaran akun baru, login, pencarian barang, hingga transaksi pembayaran online.
 
 Di modul ini, kita akan membongkar seluruh elemen formulir HTML5 secara mendalam.
 

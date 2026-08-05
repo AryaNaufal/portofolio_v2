@@ -12,7 +12,7 @@ featured: false
 excerpt: "Panduan praktis memformat tulisan pada halaman web: Hirarki tag heading (h1-h6), teknik pembagian paragraf, line break, dan penekanan teks penting."
 ---
 
-Setiap halaman web yang nyaman dibaca pasti memiliki tata letak tulisan yang teratur. Bayangkan jika Anda membaca koran atau majalah yang seluruh tulisannya berukuran sama tanpa ada judul berita maupun alinea—tentu sangat membingungkan, bukan?
+Setiap halaman web yang nyaman dibaca pasti memiliki tata letak tulisan yang teratur. Bayangkan jika Anda membaca koran atau majalah yang seluruh tulisannya berukuran sama tanpa ada judul berita maupun alinea - tentu sangat membingungkan, bukan?
 
 Di modul ini, kita akan mempelajari cara menyusun hirarki judul, membagi paragraf, dan memberi penekanan pada kata-kata penting.
 
