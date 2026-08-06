@@ -55,7 +55,11 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
 export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    // Return a safe fallback to prevent page generation crashes during Next.js build
+    return {
+      darkMode: false,
+      setDarkMode: () => {},
+    };
   }
   return context;
 };

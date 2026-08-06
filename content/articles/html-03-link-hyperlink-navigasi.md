@@ -64,9 +64,9 @@ Ketika Anda membangun proyek web sendiri di komputer, Anda memiliki beberapa fil
 
 ### Struktur Folder Relative Path:
 
-- `href="about.html"` $\rightarrow$ Mengarah ke file `about.html` di **folder yang sama**.
-- `href="blog/artikel.html"` $\rightarrow$ Masuk ke dalam **sub-folder** `blog`.
-- `href="../index.html"` $\rightarrow$ Keluar **naik satu tingkat folder** ke atas (`../`).
+- `href="about.html"` -> Mengarah ke file `about.html` di **folder yang sama**.
+- `href="blog/artikel.html"` -> Masuk ke dalam **sub-folder** `blog`.
+- `href="../index.html"` -> Keluar **naik satu tingkat folder** ke atas (`../`).
 
 ---
 

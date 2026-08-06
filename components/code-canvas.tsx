@@ -1,18 +1,194 @@
 "use client";
 
 import { useState } from "react";
-import { IoCheckmarkOutline, IoCopyOutline } from "react-icons/io5";
+import { IoCheckmarkOutline, IoCopyOutline, IoCreateOutline } from "react-icons/io5";
 
 interface CodeCanvasProps {
   code: string;
   language?: string;
   filename?: string;
+  preview?: boolean;
 }
+
+const getHtmlSupportForCss = (cssCode: string): string => {
+  const css = cssCode.toLowerCase();
+  
+  if (css.includes("kontainer-flex") || css.includes("navbar") || css.includes("justify-content") || css.includes("align-items") || css.includes("flex-direction")) {
+    return `<!-- HTML Preset: Flexbox Layout -->
+<nav class="navbar">
+  <div class="logo">BelajarCSS</div>
+  <div class="menu">
+    <a href="#">Beranda</a>
+    <a href="#">Tutorial</a>
+    <a href="#">Tentang</a>
+  </div>
+</nav>
+
+<div class="kontainer-flex">
+  <div class="kartu">
+    <h3>Modul 1</h3>
+    <p>Dasar-dasar tata letak Flexbox satu dimensi.</p>
+  </div>
+  <div class="kartu">
+    <h3>Modul 2</h3>
+    <p>Pengaturan justify-content dan align-items.</p>
+  </div>
+  <div class="kartu">
+    <h3>Modul 3</h3>
+    <p>Membuat grid item fleksibel dengan properti gap.</p>
+  </div>
+</div>`;
+  }
+  
+  if (css.includes("galeri-grid") || css.includes("grid-template") || css.includes("katalog-4-kolom") || css.includes("fr") || css.includes("auto-fit")) {
+    return `<!-- HTML Preset: CSS Grid Gallery -->
+<div class="galeri-wrapper">
+  <h2>Galeri Foto Responsif (2D Grid)</h2>
+  
+  <div class="galeri-grid kontainer-3-kolom katalog-4-kolom galeri-responsif-otomatis">
+    <div class="foto photo-1">Foto 1</div>
+    <div class="foto photo-2">Foto 2</div>
+    <div class="foto photo-3">Foto 3</div>
+    <div class="foto photo-4">Foto 4</div>
+    <div class="foto photo-5">Foto 5</div>
+    <div class="foto photo-6">Foto 6</div>
+  </div>
+</div>`;
+  }
+  
+  if (css.includes("kontainer-induk") || css.includes("badge-diskon") || css.includes("position: absolute") || css.includes("position: fixed") || css.includes("position: sticky") || css.includes("z-index")) {
+    return `<!-- HTML Preset: Absolute & Sticky Positions -->
+<div class="kontainer-induk" style="border: 2px dashed #cbd5e1; border-radius: 8px; width: 100%; height: 350px; position: relative;">
+  <div class="badge-diskon">Diskon 50%</div>
+  <h2 class="sub-judul-uppercase" style="margin-top: 40px; text-align: center;">Produk Premium</h2>
+  
+  <div class="lapisan-bawah" style="width: 120px; height: 120px; background: #e2e8f0; border-radius: 8px; position: absolute; top: 120px; left: 50px; display: flex; align-items: center; justify-content: center; font-size: 10px;">Lapisan Bawah</div>
+  <div class="lapisan-atas" style="width: 100px; height: 100px; background: #14b8a6; color: white; border-radius: 8px; position: absolute; top: 150px; left: 90px; display: flex; align-items: center; justify-content: center; font-size: 10px;">Lapisan Atas</div>
+  
+  <div class="sidebar-daftar-isi" style="position: absolute; right: 20px; top: 80px; width: 100px; padding: 10px; background: #f1f5f9; border-radius: 6px; font-size: 10px; text-align: center;">Sidebar Sticky</div>
+  <div class="tombol-wa-fixed" style="position: absolute; bottom: 20px; right: 20px; background: #25d366; color: white; padding: 8px 12px; border-radius: 20px; font-size: 10px; font-weight: bold; cursor: pointer;">WA Chat</div>
+</div>`;
+  }
+  
+  if (css.includes("kartu-artikel") || css.includes("box-sizing") || css.includes("margin") || css.includes("padding") || css.includes("width") || css.includes("height")) {
+    return `<!-- HTML Preset: Card & Box Model -->
+<div class="kartu-artikel">
+  <h2 id="judul-utama-situs">Belajar Box Model</h2>
+  <p class="teks-sorot">Box model adalah konsep inti CSS yang mengatur dimensi dari setiap elemen, termasuk margin, border, padding, dan konten utama.</p>
+  <button class="tombol-gradien-cantik">Baca Selengkapnya</button>
+</div>`;
+  }
+
+  return `<!-- HTML Preset: Default Elements -->
+<div class="container">
+  <h1 id="judul-utama-situs">Judul Utama Situs (h1)</h1>
+  <h2>Subjudul Halaman (h2)</h2>
+  <p>Ini adalah sebuah paragraf teks (tag &lt;p&gt;) yang digunakan untuk melihat pengaruh gaya CSS Anda seperti warna, margin, padding, dan tipografi.</p>
+  
+  <button class="tombol-aksi tombol teks-sorot">Contoh Tombol</button>
+  
+  <p class="teks-sorot" style="margin-top: 12px;">Teks paragraf dengan kelas <code>.teks-sorot</code></p>
+</div>`;
+};
+
+const getFullHtmlDocument = (htmlSnippet: string): string => {
+  const trimmed = htmlSnippet.trim();
+  
+  // If it already looks like a complete HTML document, don't wrap it
+  if (trimmed.toLowerCase().startsWith("<!doctype") || trimmed.toLowerCase().includes("<html")) {
+    return htmlSnippet;
+  }
+
+  const cleanSnippet = trimmed.replace(/<!--[\s\S]*?-->/g, "").trim().toLowerCase();
+  
+  // If the snippet is already a complete <head> block
+  if (cleanSnippet.startsWith("<head")) {
+    return `<!DOCTYPE html>
+<html lang="id">
+${htmlSnippet}
+<body>
+
+  <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; text-align: center; max-width: 450px; background-color: #f8fafc; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); margin: 40px auto; font-family: sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 200px;">
+    <h3 style="color: #0f172a; margin-top: 0; font-size: 16px; font-weight: 700;">Metadata Berhasil Dimuat! 🔍</h3>
+    <p style="color: #475569; font-size: 13px; line-height: 1.6; margin-bottom: 12px; text-align: center;">Tag <code>&lt;head&gt;</code> telah diletakkan dengan benar di dalam dokumen sandbox.</p>
+    <p style="color: #64748b; font-size: 11px; font-style: italic; margin-bottom: 0; border-top: 1px solid #e2e8f0; padding-top: 12px; text-align: center;">Gunakan fitur <strong>Inspect Element</strong> peramban Anda pada frame pratinjau ini untuk memeriksa isi tag &lt;head&gt; secara langsung.</p>
+  </div>
+
+</body>
+</html>`;
+  }
+
+  // Check if the snippet contains meta, link or title tags at its root level
+  const isHeadTagOnly = cleanSnippet.startsWith("<meta") || 
+                        cleanSnippet.startsWith("<link") || 
+                        cleanSnippet.startsWith("<title");
+
+  if (isHeadTagOnly) {
+    return `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  ${htmlSnippet}
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 24px;
+      margin: 0;
+      background-color: #ffffff;
+      color: #1e293b;
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+    }
+  </style>
+</head>
+<body>
+
+  <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; text-align: center; max-width: 450px; background-color: #f8fafc; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);">
+    <h3 style="color: #0f172a; margin-top: 0; font-size: 16px; font-weight: 700;">Metadata Berhasil Dimuat! 🔍</h3>
+    <p style="color: #475569; font-size: 13px; line-height: 1.6; margin-bottom: 12px;">Tag <code>&lt;meta&gt;</code> atau <code>&lt;link&gt;</code> telah diletakkan dengan benar di dalam bagian <strong>&lt;head&gt;</strong> dokumen sandbox.</p>
+    <p style="color: #64748b; font-size: 11px; font-style: italic; margin-bottom: 0; border-top: 1px solid #e2e8f0; padding-top: 12px;">Gunakan fitur <strong>Inspect Element</strong> peramban Anda pada frame pratinjau ini untuk memeriksa isi tag &lt;head&gt; secara langsung.</p>
+  </div>
+
+</body>
+</html>`;
+  }
+  
+  return `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Latihan</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 24px;
+      margin: 0;
+      background-color: #ffffff;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+${htmlSnippet}
+
+</body>
+</html>`;
+};
 
 export default function CodeCanvas({
   code,
   language = "html",
   filename = "index.html",
+  preview = true,
 }: CodeCanvasProps) {
   const [copied, setCopied] = useState(false);
 
@@ -24,19 +200,33 @@ export default function CodeCanvas({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleTryIt = () => {
+    const isHtml =
+      language.toLowerCase() === "html" ||
+      language.toLowerCase() === "xml" ||
+      filename.endsWith(".html");
+
+    const htmlToStore = isHtml ? getFullHtmlDocument(code) : getHtmlSupportForCss(code);
+    const cssToStore = !isHtml ? code : "";
+
+    sessionStorage.setItem("sandbox_html", htmlToStore);
+    sessionStorage.setItem("sandbox_css", cssToStore);
+    sessionStorage.setItem("sandbox_lang", language.toLowerCase());
+    sessionStorage.setItem("sandbox_filename", filename);
+    
+    window.open("/sandbox", "_blank");
+  };
+
   // Syntax highlighter for HTML & XML code
   const highlightHtmlLine = (line: string) => {
     if (line.trim().startsWith("<!--") || line.includes("-->")) {
-      // Handle full or partial HTML comments
       return <span className="text-slate-500 italic">{line}</span>;
     }
 
-    // Tokenize HTML doctype, tags, attributes, strings, and plain text
     const regex = /(<!DOCTYPE\s+html>|<\/?[a-zA-Z0-9\-]+|\/?>|[\w\-]+=(?="|\')|".*?"|'.*?'|[^<>"']+)/gi;
     const tokens = line.match(regex) || [line];
 
     return tokens.map((token, i) => {
-      // DOCTYPE
       if (/^<!DOCTYPE\s+html>/i.test(token)) {
         return (
           <span key={i} className="text-purple-400 font-bold">
@@ -44,7 +234,6 @@ export default function CodeCanvas({
           </span>
         );
       }
-      // HTML Opening or Closing Tags e.g. <html, <body>, </h1>, <img
       if (/^<\/?[a-zA-Z0-9\-]+/i.test(token)) {
         const isClosing = token.startsWith("</");
         const tagName = token.replace(/^<\/?/, "");
@@ -55,7 +244,6 @@ export default function CodeCanvas({
           </span>
         );
       }
-      // Closing Brackets > or />
       if (token === ">" || token === "/>") {
         return (
           <span key={i} className="text-slate-400 font-semibold">
@@ -63,7 +251,6 @@ export default function CodeCanvas({
           </span>
         );
       }
-      // Attributes e.g. href=, src=, class=, alt=
       if (/^[\w\-]+=/i.test(token)) {
         const attrName = token.replace(/=$/, "");
         return (
@@ -73,7 +260,6 @@ export default function CodeCanvas({
           </span>
         );
       }
-      // Quoted Strings e.g. "id", "utf-8", "https://..."
       if (/^(".*?"|'.*?')$/.test(token)) {
         return (
           <span key={i} className="text-emerald-300">
@@ -82,7 +268,6 @@ export default function CodeCanvas({
         );
       }
 
-      // Default plain text inside tags
       return (
         <span key={i} className="text-slate-200">
           {token}
@@ -140,6 +325,8 @@ export default function CodeCanvas({
     language.toLowerCase() === "xml" ||
     filename.endsWith(".html");
 
+  const showTryItButton = (isHtml || language.toLowerCase() === "css") && preview;
+
   return (
     <div className="my-6 overflow-hidden rounded-2xl border border-slate-700/80 bg-[#0d1117] shadow-2xl shadow-black/50">
       {/* Code Editor Header Bar (Mac / VSCode Canvas Header) */}
@@ -157,11 +344,23 @@ export default function CodeCanvas({
           </div>
         </div>
 
-        {/* Right Controls: Language Badge & Copy Button */}
-        <div className="flex items-center gap-3">
+        {/* Right Controls: Language Badge & Copy/TryIt Buttons */}
+        <div className="flex flex-wrap items-center gap-3">
           <span className="text-[11px] font-mono uppercase tracking-wider font-semibold text-amber-400">
             {language}
           </span>
+
+          {/* Try It Yourself Button */}
+          {showTryItButton && (
+            <button
+              onClick={handleTryIt}
+              className="flex items-center gap-1.5 rounded-lg bg-slate-800/80 px-2.5 py-1 text-xs font-medium text-slate-300 transition-colors hover:bg-slate-700 hover:text-white"
+              title="Buka di Live Sandbox interaktif"
+            >
+              <IoCreateOutline className="text-xs text-slate-400" />
+              <span>Coba Sendiri</span>
+            </button>
+          )}
 
           <button
             onClick={handleCopy}

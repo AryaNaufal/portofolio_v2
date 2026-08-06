@@ -54,12 +54,12 @@ Bayangkan rumah Anda memiliki **Jendela Kaca Transparan** di dinding:
 YouTube tidak mengizinkan Anda memasang link video langsung di atribut `src` biasa. YouTube menyediakan kode penyematan (*embed code*) khusus:
 
 1. Buka video di YouTube.
-2. Klik tombol **Bagikan (Share)** $\rightarrow$ Pilih **Sematkan (Embed)**.
+2. Klik tombol **Bagikan (Share)** -> Pilih **Sematkan (Embed)**.
 3. Salin kode `<iframe>` yang disediakan dan tempelkan ke dalam kode HTML Anda:
 
 ```html
 <!-- Contoh Kode Embed Pemutar Video YouTube -->
-<div className="rasio-video">
+<div class="rasio-video">
     <iframe 
         width="560" 
         height="315" 
@@ -79,7 +79,7 @@ YouTube tidak mengizinkan Anda memasang link video langsung di atribut `src` bia
 Untuk menampilkan lokasi toko atau kantor Anda di halaman Kontak:
 
 1. Buka lokasi bisnis Anda di **Google Maps**.
-2. Klik tombol **Bagikan (Share)** $\rightarrow$ Pilih **Sematkan Peta (Embed a Map)**.
+2. Klik tombol **Bagikan (Share)** -> Pilih **Sematkan Peta (Embed a Map)**.
 3. Salin kode HTML iframe yang diberikan:
 
 ```html

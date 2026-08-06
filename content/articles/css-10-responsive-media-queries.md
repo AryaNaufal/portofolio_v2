@@ -79,10 +79,10 @@ Salah satu kasus penggunaan paling penting adalah mengubah deretan kolom mendata
 
 Berikut adalah patokan ukuran lebar layar (*breakpoint*) standar yang sering digunakan oleh kerangka kerja internasional seperti Tailwind CSS atau Bootstrap:
 
-- `max-width: 640px` $\rightarrow$ **Smartphone HP Small/Medium**.
-- `max-width: 768px` $\rightarrow$ **Tablet / iPad Portrait**.
-- `max-width: 1024px` $\rightarrow$ **Laptop / Tablet Landscape**.
-- `min-width: 1280px` $\rightarrow$ **Desktop / Monitor Lebar**.
+- `max-width: 640px` -> **Smartphone HP Small/Medium**.
+- `max-width: 768px` -> **Tablet / iPad Portrait**.
+- `max-width: 1024px` -> **Laptop / Tablet Landscape**.
+- `min-width: 1280px` -> **Desktop / Monitor Lebar**.
 
 ---
 

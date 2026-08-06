@@ -23,13 +23,13 @@ Dengan CSS Grid, Anda dapat mendesain tata letak halaman web yang kompleks tanpa
 CSS Grid bekerja dengan membagi area pembungkus menjadi kisi-kisi kolom dan baris:
 
 ```html
-<div className="galeri-grid">
-    <div className="item">Foto 1</div>
-    <div className="item">Foto 2</div>
-    <div className="item">Foto 3</div>
-    <div className="item">Foto 4</div>
-    <div className="item">Foto 5</div>
-    <div className="item">Foto 6</div>
+<div class="galeri-grid">
+    <div class="item">Foto 1</div>
+    <div class="item">Foto 2</div>
+    <div class="item">Foto 3</div>
+    <div class="item">Foto 4</div>
+    <div class="item">Foto 5</div>
+    <div class="item">Foto 6</div>
 </div>
 ```
 

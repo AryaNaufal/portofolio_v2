@@ -27,10 +27,10 @@ Menuliskan nama warna langsung dalam bahasa Inggris (contoh: `red`, `blue`, `tea
 
 ### B. Hexadecimal Code (Format HEX - `#RRGGBB`)
 Format paling populer di dunia web design. Dimulai dengan tanda pagar `#` diikuti 6 digit angka/huruf heksadesimal (0-9, A-F):
-- `#000000` $\rightarrow$ Hitam Pekat
-- `#ffffff` $\rightarrow$ Putih Bersih
-- `#14b8a6` $\rightarrow$ Hijau Teal Modern
-- `#f59e0b` $\rightarrow$ Kuning Amber Warm
+- `#000000` -> Hitam Pekat
+- `#ffffff` -> Putih Bersih
+- `#14b8a6` -> Hijau Teal Modern
+- `#f59e0b` -> Kuning Amber Warm
 
 ### C. RGB (Red, Green, Blue)
 Pencampuran tiga saluran warna utama dari rentang angka `0` sampai `255`:

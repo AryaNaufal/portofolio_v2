@@ -77,7 +77,7 @@ Gunakan `<div>` saat Anda ingin **kelompokkan beberapa elemen** (seperti membung
 
 ```html
 <!-- Membungkus Satu Kartu Produk -->
-<div className="kartu-produk">
+<div class="kartu-produk">
     <img src="sepatu.jpg" alt="Sepatu Lari">
     <h3>Sepatu Lari Sport</h3>
     <p>Harga: Rp 450.000</p>

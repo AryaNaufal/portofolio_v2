@@ -5,6 +5,31 @@ import { useTheme } from "@/context/theme-context";
 import { slugify, cleanHeadingText } from "@/lib/slug";
 import CodeCanvas from "./code-canvas";
 
+// Configure marked to secure external links with target="_blank" and rel="noopener noreferrer"
+let isParsingLink = false;
+marked.use({
+  renderer: {
+    link(token: any) {
+      if (isParsingLink) {
+        return token.text || "";
+      }
+
+      const href = token.href || "";
+      const isExternal = href.startsWith("http://") || href.startsWith("https://");
+      const target = isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
+      const title = token.title ? ` title="${token.title}"` : "";
+
+      isParsingLink = true;
+      try {
+        const content = marked.parseInline(token.text || "") as string;
+        return `<a href="${href}"${target}${title}>${content}</a>`;
+      } finally {
+        isParsingLink = false;
+      }
+    }
+  }
+});
+
 interface MarkdownRendererProps {
   content: string;
 }
@@ -20,6 +45,9 @@ function attachHeadingIds(html: string): string {
 export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
   const { darkMode } = useTheme();
 
+  // Normalize line endings to LF to avoid carriage return (\r) issues
+  const normalizedContent = content.replace(/\r\n/g, "\n");
+
   // Regex to extract code blocks ```lang ... ```
   const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
 
@@ -27,8 +55,8 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
   let lastIndex = 0;
   let match;
 
-  while ((match = codeBlockRegex.exec(content)) !== null) {
-    const textBefore = content.substring(lastIndex, match.index);
+  while ((match = codeBlockRegex.exec(normalizedContent)) !== null) {
+    const textBefore = normalizedContent.substring(lastIndex, match.index);
     const lang = (match[1] || "html").toLowerCase();
     const code = match[2];
 
@@ -72,20 +100,36 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
     // Determine sample filename based on language
     let filename = "index.html";
-    if (lang === "html") filename = "index.html";
-    else if (lang === "tsx" || lang === "jsx") filename = "App.tsx";
-    else if (lang === "javascript" || lang === "js") filename = "script.js";
-    else if (lang === "typescript" || lang === "ts") filename = "main.ts";
-    else if (lang === "css") filename = "style.css";
-    else if (lang === "json") filename = "data.json";
-    else if (lang === "bash" || lang === "sh") filename = "terminal.sh";
+    let actualLang = lang;
+    let preview = true;
+
+    if (lang === "html-static" || lang === "html-nopreview") {
+      filename = "index.html";
+      actualLang = "html";
+      preview = false;
+    } else if (lang === "html") {
+      filename = "index.html";
+    } else if (lang === "tsx" || lang === "jsx") {
+      filename = "App.tsx";
+    } else if (lang === "javascript" || lang === "js") {
+      filename = "script.js";
+    } else if (lang === "typescript" || lang === "ts") {
+      filename = "main.ts";
+    } else if (lang === "css") {
+      filename = "style.css";
+    } else if (lang === "json") {
+      filename = "data.json";
+    } else if (lang === "bash" || lang === "sh") {
+      filename = "terminal.sh";
+    }
 
     elements.push(
       <CodeCanvas
         key={`code-${match.index}`}
         code={code}
-        language={lang}
+        language={actualLang}
         filename={filename}
+        preview={preview}
       />
     );
 
@@ -93,7 +137,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
   }
 
   // Any remaining text after the last code block
-  const remainingText = content.substring(lastIndex);
+  const remainingText = normalizedContent.substring(lastIndex);
   if (remainingText.trim()) {
     const htmlRemaining = attachHeadingIds(marked.parse(remainingText) as string);
     elements.push(

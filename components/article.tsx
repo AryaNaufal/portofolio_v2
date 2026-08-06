@@ -4,17 +4,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "@/context/theme-context";
 import { motion } from "framer-motion";
-import { articlesData } from "@/data/articles";
 import {
   IoTimeOutline,
   IoCalendarOutline,
   IoArrowForward,
 } from "react-icons/io5";
+import type { ArticleItem } from "@/lib/markdown";
 
-export default function ArticleSection() {
+interface ArticleSectionProps {
+  articles: ArticleItem[];
+}
+
+export default function ArticleSection({ articles = [] }: ArticleSectionProps) {
   const { darkMode } = useTheme();
   // Display top 3 articles on the homepage preview
-  const recentArticles = articlesData.slice(0, 3);
+  const recentArticles = articles.slice(0, 3);
 
   return (
     <section

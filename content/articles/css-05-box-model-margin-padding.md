@@ -71,9 +71,9 @@ Untuk memahami Box Model dengan sangat mudah tanpa rumus rumit, bayangkan saat A
 
 ### Penulisan Singkat (Shorthand Notation):
 
-- `margin: 20px;` $\rightarrow$ Keempat sisi (Atas, Kanan, Bawah, Kiri) bernilai 20px.
-- `margin: 10px 20px;` $\rightarrow$ Atas-Bawah 10px, Kanan-Kiri 20px.
-- `margin: 10px 15px 20px 25px;` $\rightarrow$ Berputar searah jarum jam: **Atas (10px), Kanan (15px), Bawah (20px), Kiri (25px)**.
+- `margin: 20px;` -> Keempat sisi (Atas, Kanan, Bawah, Kiri) bernilai 20px.
+- `margin: 10px 20px;` -> Atas-Bawah 10px, Kanan-Kiri 20px.
+- `margin: 10px 15px 20px 25px;` -> Berputar searah jarum jam: **Atas (10px), Kanan (15px), Bawah (20px), Kiri (25px)**.
 
 ---
 

@@ -23,10 +23,10 @@ Namun sejak hadirnya **CSS Flexbox** (*Flexible Box*), pembuatan tata letak 1 di
 Flexbox bekerja dengan memberikan instruksi pada elemen pembungkus induk (*Flex Container*):
 
 ```html
-<div className="kontainer-flex">
-    <div className="item">Kartu 1</div>
-    <div className="item">Kartu 2</div>
-    <div className="item">Kartu 3</div>
+<div class="kontainer-flex">
+    <div class="item">Kartu 1</div>
+    <div class="item">Kartu 2</div>
+    <div class="item">Kartu 3</div>
 </div>
 ```
 

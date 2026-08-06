@@ -39,7 +39,7 @@ Bayangkan formulir pendaftaran di dunia nyata:
 Setiap kolom isian wajib diberi label penjelas. Gunakan atribut `for` pada `<label>` yang nilainya sama dengan atribut `id` pada `<input>` agar ketika teks label diklik, kursor koding otomatis melompat masuk ke kolom isian tersebut!
 
 ```html
-<div className="form-group">
+<div class="form-group">
     <label for="nama-lengkap">Nama Lengkap:</label>
     <input type="text" id="nama-lengkap" name="nama" placeholder="Masukkan nama Anda">
 </div>
@@ -134,9 +134,34 @@ Anda dapat melakukan validasi isian tanpa perlu menulis JavaScript! Gunakan atri
 - `readonly` / `disabled`: Membekukan kolom agar tidak bisa diketik.
 
 ```html
-<!-- Contoh Tombol Kirim & Reset -->
-<button type="submit">Kirim Pendaftaran</button>
-<button type="reset">Bersihkan Formulir</button>
+<!-- Contoh Formulir Validasi Interaktif HTML5 -->
+<form onsubmit="alert('Sukses! Formulir divalidasi oleh browser dan dikirim.'); return false;" style="font-family: sans-serif; max-width: 400px; padding: 20px; border: 1px solid #cbd5e1; border-radius: 12px; background-color: #f8fafc; color: #1e293b;">
+    <h4 style="margin: 0 0 16px 0; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">Uji Validasi HTML5</h4>
+    
+    <!-- Kolom Wajib diisi (Required) & Cek Format Email -->
+    <div style="margin-bottom: 12px;">
+        <label for="pendaftaran-email" style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px;">Email Resmi (Wajib & Format Sesuai):</label>
+        <input type="email" id="pendaftaran-email" name="email" required placeholder="nama@perusahaan.com" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px;">
+    </div>
+    
+    <!-- Batas Minimal Karakter (Minlength) -->
+    <div style="margin-bottom: 12px;">
+        <label for="pendaftaran-pass" style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px;">Kata Sandi (Min. 8 Karakter):</label>
+        <input type="password" id="pendaftaran-pass" name="password" required minlength="8" placeholder="Minimal 8 karakter" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px;">
+    </div>
+    
+    <!-- Kolom Hanya Baca (Readonly) -->
+    <div style="margin-bottom: 16px;">
+        <label for="pendaftaran-status" style="display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px;">Status Keanggotaan (Readonly):</label>
+        <input type="text" id="pendaftaran-status" name="status" value="Calon Siswa Baru" readonly style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; background-color: #f1f5f9; color: #64748b; font-size: 14px; cursor: not-allowed;">
+    </div>
+
+    <!-- Tombol Kirim & Reset -->
+    <div style="display: flex; gap: 8px;">
+        <button type="submit" style="padding: 8px 16px; background-color: #14b8a6; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px;">Kirim Pendaftaran</button>
+        <button type="reset" style="padding: 8px 16px; background-color: #e2e8f0; color: #334155; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">Bersihkan Formulir</button>
+    </div>
+</form>
 ```
 
 ---

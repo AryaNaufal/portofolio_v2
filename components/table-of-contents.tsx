@@ -12,7 +12,9 @@ export interface TocItem {
 }
 
 export function extractToc(markdown: string): TocItem[] {
-  const lines = markdown.split("\n");
+  // Normalize line endings to LF to avoid carriage return (\r) issues
+  const normalizedMarkdown = markdown.replace(/\r\n/g, "\n");
+  const lines = normalizedMarkdown.split("\n");
   const items: TocItem[] = [];
 
   lines.forEach((line) => {

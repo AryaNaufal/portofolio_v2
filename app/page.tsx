@@ -4,8 +4,11 @@ import Hero from "@/components/hero";
 import Navbar from "@/components/navbar";
 import Project from "@/components/project";
 import Footer from "@/components/footer";
+import { getAllArticles } from "@/lib/markdown";
 
 export default function Home() {
+  const articles = getAllArticles();
+
   return (
     <>
       <Navbar />
@@ -13,7 +16,7 @@ export default function Home() {
         <Hero />
         <About />
         <Project />
-        <Article />
+        <Article articles={articles} />
       </main>
       <Footer />
     </>

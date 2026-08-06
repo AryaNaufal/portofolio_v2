@@ -42,7 +42,7 @@ Berikut adalah elemen-elemen struktur utama pembentuk halaman web modern:
 
     <!-- 1. HEADER: Area Kepala Situs (Logo, Judul, Banner) -->
     <header>
-        <div className="logo">SitusEdukasi.com</div>
+        <div class="logo">SitusEdukasi.com</div>
         <p>Portal Belajar Web Development Terlengkap</p>
     </header>
 

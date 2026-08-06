@@ -128,10 +128,10 @@ Pseudo-class digunakan untuk mengubah gaya elemen saat terjadi **interaksi dari 
 
 Jika ada dua aturan CSS yang bentrok menunjuk elemen yang sama, siapakah yang menang?
 
-1. **Inline Style (`style="..."`)** $\rightarrow$ Skor: 1000 (Paling Kuat)
-2. **ID Selector (`#id`)** $\rightarrow$ Skor: 100
-3. **Class / Attribute Selector (`.class`)** $\rightarrow$ Skor: 10
-4. **Element Selector (`h1`, `p`)** $\rightarrow$ Skor: 1 (Paling Lemah)
+1. **Inline Style (`style="..."`)** -> Skor: 1000 (Paling Kuat)
+2. **ID Selector (`#id`)** -> Skor: 100
+3. **Class / Attribute Selector (`.class`)** -> Skor: 10
+4. **Element Selector (`h1`, `p`)** -> Skor: 1 (Paling Lemah)
 
 ---
 
