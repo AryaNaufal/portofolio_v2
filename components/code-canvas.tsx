@@ -88,24 +88,73 @@ const getHtmlSupportForCss = (cssCode: string): string => {
 </html>`;
   }
 
-  if (css.includes("kartu-artikel") || css.includes("box-sizing") || css.includes("margin") || css.includes("padding") || css.includes("width") || css.includes("height")) {
-    return `<!-- HTML Preset: Card & Box Model -->
-<div class="kartu-artikel">
-  <h2 id="judul-utama-situs">Belajar Box Model</h2>
-  <p class="teks-sorot">Box model adalah konsep inti CSS yang mengatur dimensi dari setiap elemen, termasuk margin, border, padding, dan konten utama.</p>
-  <button class="tombol-gradien-cantik">Baca Selengkapnya</button>
-</div>`;
+  // Dynamic Selector Parser for any custom CSS block
+  const htmlElements: string[] = [];
+  
+  // Extract all class selectors: .class-name
+  const classMatches = Array.from(cssCode.matchAll(/\.([a-zA-Z0-9_\-]+)/g)).map(m => m[1]);
+  const uniqueClasses = Array.from(new Set(classMatches));
+
+  // Extract all ID selectors: #id-name
+  const idMatches = Array.from(cssCode.matchAll(/#([a-zA-Z0-9_\-]+)/g)).map(m => m[1]);
+  const uniqueIds = Array.from(new Set(idMatches));
+
+  // Build HTML for ID selectors
+  uniqueIds.forEach(idName => {
+    if (idName === "judul-utama-situs") {
+      htmlElements.push(`<h1 id="${idName}">Portofolio Arya Naufal</h1>`);
+    } else {
+      htmlElements.push(`<div id="${idName}" style="padding: 12px;">Elemen dengan ID #${idName}</div>`);
+    }
+  });
+
+  // Build HTML for Class selectors
+  uniqueClasses.forEach(className => {
+    if (className === "teks-sorot") {
+      htmlElements.push(`<p class="${className}">Paragraf dengan kelas .${className}</p>`);
+      htmlElements.push(`<button class="${className}" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; margin-top: 8px;">Tombol dengan kelas .${className}</button>`);
+    } else if (className.includes("tombol") || className.includes("btn") || className.includes("button")) {
+      htmlElements.push(`<button class="${className}" style="padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Tombol .${className}</button>`);
+    } else if (className.includes("kartu") || className.includes("card")) {
+      htmlElements.push(`<div class="${className}" style="padding: 20px; border-radius: 12px; margin-bottom: 12px;">\n  <h3>Judul Kartu</h3>\n  <p>Isi konten kartu dengan class .${className}</p>\n</div>`);
+    } else {
+      htmlElements.push(`<div class="${className}" style="padding: 12px; margin-bottom: 8px;">Elemen dengan kelas .${className}</div>`);
+    }
+  });
+
+  // Check for HTML tag selectors (p, h1, h2, h3, button)
+  if (css.includes("p {") || css.includes("p,")) {
+    if (!htmlElements.some(el => el.includes("<p"))) {
+      htmlElements.push(`<p>Ini adalah paragraf contoh untuk melihat gaya selector p.</p>`);
+    }
+  }
+  if (css.includes("h1 {") || css.includes("h1,")) {
+    if (!htmlElements.some(el => el.includes("<h1"))) {
+      htmlElements.push(`<h1>Judul Utama (h1)</h1>`);
+    }
+  }
+  if (css.includes("h2 {") || css.includes("h2,")) {
+    if (!htmlElements.some(el => el.includes("<h2"))) {
+      htmlElements.push(`<h2>Subjudul Halaman (h2)</h2>`);
+    }
+  }
+  if (css.includes("button {") || css.includes("button,")) {
+    if (!htmlElements.some(el => el.includes("<button"))) {
+      htmlElements.push(`<button style="padding: 10px 20px; border-radius: 6px; cursor: pointer;">Tombol Tag Button</button>`);
+    }
   }
 
-  return `<!-- HTML Preset: Default Elements -->
-<div class="container">
-  <h1 id="judul-utama-situs">Judul Utama Situs (h1)</h1>
-  <h2>Subjudul Halaman (h2)</h2>
-  <p>Ini adalah sebuah paragraf teks (tag &lt;p&gt;) yang digunakan untuk melihat pengaruh gaya CSS Anda seperti warna, margin, padding, dan tipografi.</p>
-  
-  <button class="tombol-aksi tombol teks-sorot">Contoh Tombol</button>
-  
-  <p class="teks-sorot" style="margin-top: 12px;">Teks paragraf dengan kelas <code>.teks-sorot</code></p>
+  // Fallback if no specific selectors were found
+  if (htmlElements.length === 0) {
+    htmlElements.push(`<h1 id="judul-utama-situs">Judul Utama Situs (h1)</h1>`);
+    htmlElements.push(`<h2>Subjudul Halaman (h2)</h2>`);
+    htmlElements.push(`<p>Ini adalah sebuah paragraf teks (tag &lt;p&gt;) yang digunakan untuk melihat pengaruh gaya CSS Anda.</p>`);
+    htmlElements.push(`<button class="tombol-aksi teks-sorot" style="padding: 10px 20px; border-radius: 6px;">Contoh Tombol</button>`);
+  }
+
+  return `<!-- HTML Auto-Generated for CSS Selectors -->
+<div class="container" style="padding: 24px; max-width: 600px; margin: 0 auto;">
+  ${htmlElements.join("\n  ")}
 </div>`;
 };
 
