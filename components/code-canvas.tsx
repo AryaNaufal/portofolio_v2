@@ -70,6 +70,24 @@ const getHtmlSupportForCss = (cssCode: string): string => {
 </div>`;
   }
   
+  if (css.includes("f59e0b") || css.includes("0b0f14") || css.includes("external css") || css.includes("inter")) {
+    return `<!-- HTML Preset: External CSS Link -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metode External CSS</title>
+    <!-- Menghubungkan File CSS Terpisah -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Belajar External CSS</h1>
+    <p>File HTML dan CSS ini terpisah di file berbeda, namun terhubung menjadi satu kesatuan rapi.</p>
+</body>
+</html>`;
+  }
+
   if (css.includes("kartu-artikel") || css.includes("box-sizing") || css.includes("margin") || css.includes("padding") || css.includes("width") || css.includes("height")) {
     return `<!-- HTML Preset: Card & Box Model -->
 <div class="kartu-artikel">
@@ -206,8 +224,29 @@ export default function CodeCanvas({
       language.toLowerCase() === "xml" ||
       filename.endsWith(".html");
 
-    const htmlToStore = isHtml ? getFullHtmlDocument(code) : getHtmlSupportForCss(code);
-    const cssToStore = !isHtml ? code : "";
+    let htmlToStore = isHtml ? getFullHtmlDocument(code) : getHtmlSupportForCss(code);
+    let cssToStore = !isHtml ? code : "";
+
+    // If HTML block includes external style.css reference, auto-populate the paired style.css
+    if (isHtml && (code.includes('href="style.css"') || code.includes("External CSS") || code.includes("style.css"))) {
+      cssToStore = `/* Seluruh Aturan Desain Tersimpan Rapi di Sini */
+body {
+    background-color: #0b0f14;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    padding: 30px;
+}
+
+h1 {
+    color: #f59e0b;
+    letter-spacing: 0.02em;
+}
+
+p {
+    color: #94a3b8;
+    line-height: 1.6;
+}`;
+    }
 
     sessionStorage.setItem("sandbox_html", htmlToStore);
     sessionStorage.setItem("sandbox_css", cssToStore);

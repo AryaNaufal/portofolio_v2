@@ -88,10 +88,17 @@ Menulis seluruh kode CSS di dalam file terpisah ber-ekstensi `.css` (misal `styl
 
 File `index.html`:
 ```html
+<!DOCTYPE html>
+<html lang="id">
 <head>
     <!-- Menghubungkan File CSS Terpisah -->
     <link rel="stylesheet" href="style.css">
 </head>
+<body>
+    <h1>Belajar External CSS</h1>
+    <p>File HTML dan CSS ini terpisah di file berbeda, namun terhubung menjadi satu kesatuan rapi.</p>
+</body>
+</html>
 ```
 
 File `style.css`:
@@ -99,12 +106,19 @@ File `style.css`:
 /* Seluruh Aturan Desain Tersimpan Rapi di Sini */
 body {
     background-color: #0b0f14;
+    color: #ffffff;
     font-family: 'Inter', sans-serif;
+    padding: 30px;
 }
 
 h1 {
     color: #f59e0b;
     letter-spacing: 0.02em;
+}
+
+p {
+    color: #94a3b8;
+    line-height: 1.6;
 }
 ```
 - **Kelebihan Utama**: ✅ **Standar Terbaik!** 1 file `style.css` dapat menghias ratusan halaman web sekaligus. Ukuran file HTML menjadi sangat bersih dan cepat diunduh browser.

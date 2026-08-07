@@ -86,15 +86,12 @@ const highlightHtml = (code: string, dark: boolean): string => {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt bridge;");
 
-  // Revert back code bracket entity for matching regex
   escaped = escaped.replace(/&gt bridge;/g, "&gt;");
 
-  // Highlight comments: &lt;!-- ... --&gt;
   escaped = escaped.replace(/(&lt;!--[\s\S]*?--&gt;)/g, (match: string) => {
     return `<span class="${dark ? 'text-[#8b949e] italic' : 'text-[#6e7781] italic'}">${match}</span>`;
   });
 
-  // Highlight tags, attributes, and strings inside tags
   escaped = escaped.replace(/(&lt;\/?[a-zA-Z0-9\-]+)([\s\S]*?)(&gt;)/gi, (match: string, tagHead: string, tagBody: string, tagEnd: string) => {
     const tagName = tagHead.replace(/&lt;\/?/, "");
     const tagHeadColored = tagHead.replace(tagName, `<span class="${dark ? 'text-[#7ee787]' : 'text-[#116329] font-semibold'}">${tagName}</span>`);
@@ -118,16 +115,13 @@ const highlightCss = (code: string, dark: boolean): string => {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  // Highlight comments: /* ... */
   escaped = escaped.replace(/(\/\*[\s\S]*?\*\/)/g, (match: string) => {
     return `<span class="${dark ? 'text-[#8b949e] italic' : 'text-[#6e7781] italic'}">${match}</span>`;
   });
 
-  // Split by brackets to separate selectors from property blocks
   const parts = escaped.split(/(\{[\s\S]*?\})/g);
   for (let i = 0; i < parts.length; i++) {
     if (parts[i].startsWith("{")) {
-      // This is a block of properties: { prop: val; }
       parts[i] = parts[i].replace(/(\{)([\s\S]*?)(\})/g, (match: string, openBrace: string, body: string, closeBrace: string) => {
         const coloredBody = body.replace(/([a-zA-Z0-9\-]+)(\s*:\s*)([^;]+)/gi, (propMatch: string, propName: string, colon: string, propValue: string) => {
           const coloredProp = `<span class="${dark ? 'text-[#79c0ff]' : 'text-[#0550ae]'}">${propName}</span>`;
@@ -137,7 +131,6 @@ const highlightCss = (code: string, dark: boolean): string => {
         return `<span class="${dark ? 'text-[#c9d1d9]' : 'text-[#24292f]'}">${openBrace}</span>${coloredBody}<span class="${dark ? 'text-[#c9d1d9]' : 'text-[#24292f]'}">${closeBrace}</span>`;
       });
     } else {
-      // Selector text
       parts[i] = parts[i].replace(/(\.[a-zA-Z0-9_\-]+)/gi, `<span class="${dark ? 'text-[#d2a8ff]' : 'text-[#8250df] font-semibold'}">$1</span>`);
       parts[i] = parts[i].replace(/(#[a-zA-Z0-9_\-]+)/gi, `<span class="${dark ? 'text-[#d2a8ff]' : 'text-[#8250df] font-semibold'}">$1</span>`);
       parts[i] = parts[i].replace(/\b(body|html|div|p|h1|h2|h3|h4|h5|h6|span|a|ul|li|button|nav|section|table|tr|td|th|thead|tbody|img|form|input|textarea|label|header|footer)\b/gi, `<span class="${dark ? 'text-[#7ee787]' : 'text-[#116329]'}">$1</span>`);
