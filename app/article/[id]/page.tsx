@@ -1,9 +1,14 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/navbar";
-import ArticleDetailClient from "@/components/article-detail-client";
 import Footer from "@/components/footer";
 import { getArticleById, getAllArticles } from "@/lib/markdown";
+
+const ArticleDetailClient = dynamic(
+  () => import("@/components/article-detail-client"),
+  { loading: () => <div className="min-h-screen pt-28" /> }
+);
 
 interface PageProps {
   params: Promise<{ id: string }>;

@@ -84,9 +84,7 @@ const highlightHtml = (code: string, dark: boolean): string => {
   let escaped = code
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt bridge;");
-
-  escaped = escaped.replace(/&gt bridge;/g, "&gt;");
+    .replace(/>/g, "&gt;");
 
   escaped = escaped.replace(/(&lt;!--[\s\S]*?--&gt;)/g, (match: string) => {
     return `<span class="${dark ? 'text-[#8b949e] italic' : 'text-[#6e7781] italic'}">${match}</span>`;
@@ -96,7 +94,7 @@ const highlightHtml = (code: string, dark: boolean): string => {
     const tagName = tagHead.replace(/&lt;\/?/, "");
     const tagHeadColored = tagHead.replace(tagName, `<span class="${dark ? 'text-[#7ee787]' : 'text-[#116329] font-semibold'}">${tagName}</span>`);
 
-    const bodyColored = tagBody.replace(/([a-zA-Z0-9\-]+)(=)("[^"]*"|'[^']*'|[^\s&gt;]+)/gi, (attrMatch: string, attrName: string, eq: string, attrValue: string) => {
+    const bodyColored = tagBody.replace(/([a-zA-Z0-9\-]+)(=)("[^"]*"|'[^']*'|[^\s&>]+)/gi, (attrMatch: string, attrName: string, eq: string, attrValue: string) => {
       const coloredName = `<span class="${dark ? 'text-[#ff7b72]' : 'text-[#cf222e]'}">${attrName}</span>`;
       const coloredValue = `<span class="${dark ? 'text-[#a5d6ff]' : 'text-[#0a3069]'}">${attrValue}</span>`;
       return `${coloredName}${eq}${coloredValue}`;

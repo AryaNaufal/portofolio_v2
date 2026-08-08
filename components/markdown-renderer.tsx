@@ -1,9 +1,17 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { marked } from "marked";
 import { useTheme } from "@/context/theme-context";
 import { slugify, cleanHeadingText } from "@/lib/slug";
-import CodeCanvas from "./code-canvas";
+
+const CodeCanvas = dynamic(() => import("./code-canvas"), {
+  loading: () => (
+    <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-500">
+      Memuat code editor...
+    </div>
+  ),
+});
 
 // Configure marked to secure external links with target="_blank" and rel="noopener noreferrer"
 let isParsingLink = false;

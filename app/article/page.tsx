@@ -1,8 +1,13 @@
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/navbar";
-import ArticleClientPage from "@/components/article-client";
 import Footer from "@/components/footer";
 import { getAllArticles } from "@/lib/markdown";
+
+const ArticleClientPage = dynamic(
+  () => import("@/components/article-client"),
+  { loading: () => <div className="min-h-screen pt-28" /> }
+);
 
 export const metadata: Metadata = {
   title: "Pusat Panduan & Edukasi Tech",
