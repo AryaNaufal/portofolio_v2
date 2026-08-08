@@ -31,11 +31,7 @@ export default function ArticleDetailClient({
   const { darkMode } = useTheme();
 
   return (
-    <main
-      className={`min-h-screen pt-28 pb-24 transition-colors duration-700 ${
-        darkMode ? "bg-[#0b0f14] text-[#F7F7F7]" : "bg-[#f7f4ee] text-slate-900"
-      }`}
-    >
+    <main className="min-h-screen pt-28 pb-24 bg-background text-foreground transition-colors duration-700">
       <div className="container max-w-7xl">
         {/* Breadcrumb & Top Actions */}
         <div className="mb-8 flex items-center justify-between">

@@ -33,9 +33,7 @@ export default function Hero() {
   const { darkMode } = useTheme();
   return (
     <section
-      className={`transition-colors duration-800 relative w-full overflow-hidden ${
-        darkMode ? "bg-[#0b0f14]" : "bg-[#f7f4ee]"
-      } min-h-screen`}
+      className="transition-colors duration-700 relative w-full overflow-hidden bg-background text-foreground min-h-screen"
       id="home"
     >
       <div className="pointer-events-none absolute inset-0">

@@ -115,11 +115,7 @@ export default function ArticleClientPage({ articles }: ArticleClientProps) {
   };
 
   return (
-    <main
-      className={`min-h-screen pt-28 pb-24 transition-colors duration-800 ${
-        darkMode ? "bg-[#0b0f14] text-[#F7F7F7]" : "bg-[#f7f4ee] text-gray-900"
-      }`}
-    >
+    <main className="min-h-screen pt-28 pb-24 bg-background text-foreground transition-colors duration-700">
       <div className="container">
         {/* Back to Home Button */}
         <div className="mb-8">

@@ -91,9 +91,7 @@ export default function TimeLine() {
   const { darkMode } = useTheme();
   return (
     <section
-      className={`transition-colors duration-800 ${
-        darkMode ? "bg-[#0b0f14] text-[#F7F7F7]" : "bg-[#f7f4ee] text-gray-900"
-      } border-t border-[color:var(--border)]`}
+      className="transition-colors duration-700 bg-background text-foreground border-t border-[color:var(--border)]"
     >
       <div className="container py-20 lg:py-24">
         <div className="mb-10 space-y-3">

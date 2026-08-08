@@ -22,31 +22,39 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setDarkMode(savedTheme === "dark");
-      return;
-    }
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    setDarkMode(mediaQuery.matches);
+    let isDark = false;
 
+    if (savedTheme) {
+      isDark = savedTheme === "dark";
+    } else {
+      isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+
+    setDarkMode(isDark);
+    document.documentElement.classList.toggle("dark", isDark);
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = (event: MediaQueryListEvent) => {
-      setDarkMode(event.matches);
+      if (!localStorage.getItem("theme")) {
+        setDarkMode(event.matches);
+        document.documentElement.classList.toggle("dark", event.matches);
+      }
     };
 
     mediaQuery.addEventListener("change", handleChange);
-
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
-    document.documentElement.classList.toggle("dark", darkMode);
-  }, [darkMode]);
+  const handleSetDarkMode = (value: boolean) => {
+    setDarkMode(value);
+    localStorage.setItem("theme", value ? "dark" : "light");
+    document.documentElement.classList.toggle("dark", value);
+  };
 
   return (
-    <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+    <ThemeContext.Provider value={{ darkMode, setDarkMode: handleSetDarkMode }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -55,7 +63,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
 export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
-    // Return a safe fallback to prevent page generation crashes during Next.js build
     return {
       darkMode: false,
       setDarkMode: () => {},
@@ -63,3 +70,4 @@ export const useTheme = (): ThemeContextType => {
   }
   return context;
 };
+

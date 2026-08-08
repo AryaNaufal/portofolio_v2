@@ -22,9 +22,7 @@ export default function ArticleSection({ articles = [] }: ArticleSectionProps) {
 
   return (
     <section
-      className={`transition-colors duration-800 relative py-20 ${
-        darkMode ? "bg-[#0b0f14] text-[#F7F7F7]" : "bg-[#f7f4ee] text-gray-900"
-      } border-t border-[color:var(--border)] scroll-mt-24`}
+      className="transition-colors duration-700 relative py-20 bg-background text-foreground border-t border-[color:var(--border)] scroll-mt-24"
       id="article-preview"
     >
       <div className="container">
