@@ -29,11 +29,7 @@ export default function ArticleSeriesWidget({
 
   return (
     <div
-      className={`rounded-3xl p-5 border transition-all duration-300 shadow-xl max-h-[calc(100vh-320px)] overflow-y-auto thin-scrollbar ${
-        darkMode
-          ? "bg-slate-900/90 border-slate-700/80 text-slate-200"
-          : "bg-white/90 border-slate-200 text-slate-800 shadow-slate-200/50"
-      }`}
+      className="rounded-3xl p-5 border border-slate-200 dark:border-slate-700/80 transition-all duration-300 shadow-xl max-h-[calc(100vh-320px)] overflow-y-auto thin-scrollbar bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-200"
     >
       {/* Dynamic Series Header */}
       <div className="flex items-center justify-between pb-3 border-b border-[color:var(--border)]">
@@ -42,9 +38,7 @@ export default function ArticleSeriesWidget({
           <span>{seriesTitle}</span>
         </div>
         <span
-          className={`text-[11px] px-2 py-0.5 rounded-full font-mono font-medium ${
-            darkMode ? "bg-slate-800 text-slate-400" : "bg-slate-100 text-slate-600"
-          }`}
+          className="text-[11px] px-2 py-0.5 rounded-full font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
         >
           {seriesArticles.length} Modul
         </span>
@@ -63,9 +57,7 @@ export default function ArticleSeriesWidget({
               className={`group flex items-start gap-2.5 rounded-xl px-2.5 py-2 transition-all duration-200 ${
                 isCurrent
                   ? "bg-gradient-to-r from-teal-500/20 to-teal-500/20 text-[color:var(--accent)] font-bold border border-teal-500 pl-3"
-                  : darkMode
-                  ? "text-slate-300 hover:bg-slate-800/60 hover:text-teal-300"
-                  : "text-slate-700 hover:bg-slate-100 hover:text-teal-700"
+                  : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-teal-700 dark:hover:text-teal-300"
               }`}
             >
               {isCurrent ? (

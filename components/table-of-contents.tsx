@@ -85,22 +85,16 @@ export default function TableOfContents({
 
   return (
     <div
-      className={`rounded-3xl transition-all duration-300 border ${
-        isSidebar ? "p-5 border-slate-700/60 shadow-xl max-h-[calc(100vh-140px)] overflow-y-auto thin-scrollbar" : "my-8 p-5 sm:p-6"
-      } ${
-        darkMode
-          ? "bg-slate-900/90 border-slate-700/80 text-slate-200"
-          : "bg-white/90 border-slate-200 text-slate-800 shadow-lg shadow-slate-200/50"
-      }`}
+      className={`rounded-3xl transition-all duration-300 border border-slate-200 dark:border-slate-700/80 ${
+        isSidebar ? "p-5 shadow-xl max-h-[calc(100vh-140px)] overflow-y-auto thin-scrollbar" : "my-8 p-5 sm:p-6"
+      } bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-200 shadow-lg`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 font-bold text-sm">
           <IoListOutline className="text-lg text-[color:var(--accent)]" />
           <span>Daftar Isi</span>
           <span
-            className={`text-xs px-2 py-0.5 rounded-full font-mono font-medium ${
-              darkMode ? "bg-slate-800 text-slate-400" : "bg-slate-100 text-slate-600"
-            }`}
+            className="text-xs px-2 py-0.5 rounded-full font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
           >
             {tocItems.length} topik
           </span>
@@ -109,9 +103,7 @@ export default function TableOfContents({
         {!isSidebar && (
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`rounded-full p-1.5 transition-colors ${
-              darkMode ? "hover:bg-slate-800 text-slate-400" : "hover:bg-slate-100 text-slate-600"
-            }`}
+            className="rounded-full p-1.5 transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
             aria-label="Toggle Daftar Isi"
           >
             {isOpen ? <IoChevronUpOutline /> : <IoChevronDownOutline />}
@@ -132,9 +124,7 @@ export default function TableOfContents({
                 } ${
                   isActive
                     ? "bg-gradient-to-r from-teal-500/20 to-teal-500/20 text-[color:var(--accent)] font-bold border border-teal-500 pl-3"
-                    : darkMode
-                    ? "text-slate-300 hover:bg-slate-800/60 hover:text-teal-300"
-                    : "text-slate-700 hover:bg-slate-100 hover:text-teal-700"
+                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-teal-700 dark:hover:text-teal-300"
                 }`}
               >
                 <span className="mr-1.5 text-[color:var(--accent)] font-mono">

@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useCallback,
   ReactNode,
 } from "react";
 
@@ -15,10 +16,11 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
+export const ThemeProvider: React.FC<{ children: ReactNode; initialDarkMode?: boolean }> = ({
   children,
+  initialDarkMode = false,
 }) => {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [darkMode, setDarkMode] = useState<boolean>(initialDarkMode);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -47,11 +49,12 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
     };
   }, []);
 
-  const handleSetDarkMode = (value: boolean) => {
+  const handleSetDarkMode = useCallback((value: boolean) => {
     setDarkMode(value);
     localStorage.setItem("theme", value ? "dark" : "light");
+    document.cookie = `theme=${value ? "dark" : "light"}; path=/; max-age=31536000; SameSite=Lax`;
     document.documentElement.classList.toggle("dark", value);
-  };
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ darkMode, setDarkMode: handleSetDarkMode }}>

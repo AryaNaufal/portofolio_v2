@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { cookies } from "next/headers";
 import { ThemeProvider } from "@/context/theme-context";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -65,13 +66,16 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const isDark = cookieStore.get("theme")?.value === "dark";
+
   return (
-    <html lang="id" suppressHydrationWarning>
+    <html lang="id" className={isDark ? "dark" : ""} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -101,7 +105,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${Montserrat.variable} antialiased`}
         cz-shortcut-listen="true"
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider initialDarkMode={isDark}>{children}</ThemeProvider>
       </body>
     </html>
   );

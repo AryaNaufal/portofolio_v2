@@ -7,7 +7,7 @@ import { getArticleById, getAllArticles } from "@/lib/markdown";
 
 const ArticleDetailClient = dynamic(
   () => import("@/components/article-detail-client"),
-  { loading: () => <div className="min-h-screen pt-28" /> }
+  { loading: () => <div className="min-h-screen pt-28 bg-[var(--background)] text-[var(--foreground)]" /> }
 );
 
 interface PageProps {
