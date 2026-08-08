@@ -297,10 +297,10 @@ p {
 }`;
     }
 
-    sessionStorage.setItem("sandbox_html", htmlToStore);
-    sessionStorage.setItem("sandbox_css", cssToStore);
-    sessionStorage.setItem("sandbox_lang", language.toLowerCase());
-    sessionStorage.setItem("sandbox_filename", filename);
+    localStorage.setItem("sandbox_html", htmlToStore);
+    localStorage.setItem("sandbox_css", cssToStore);
+    localStorage.setItem("sandbox_lang", language.toLowerCase());
+    localStorage.setItem("sandbox_filename", filename);
     
     window.open("/sandbox", "_blank");
   };
