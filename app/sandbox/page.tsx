@@ -680,12 +680,69 @@ export default function SandboxPage() {
   const [editorHeight, setEditorHeight] = useState(300);
   const [isClient, setIsClient] = useState(false);
   const [isModified, setIsModified] = useState(false);
-  const [previewWidth, setPreviewWidth] = useState<string>("100%");
+  const [previewWidth, setPreviewWidth] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const editorRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const hasCompiledRef = useRef(false);
   const runCodeRef = useRef<() => void>(() => {});
+  // Handle drag-to-resize preview panel
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+
+    const containerWidth = containerRef.current?.offsetWidth || window.innerWidth / 2;
+    const currentWidth = previewWidth === null ? containerWidth : previewWidth;
+    const startX = e.clientX;
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const deltaX = moveEvent.clientX - startX;
+      // Multiplying deltaX by 2 because container centers the panel,
+      // so dragging the right side shifts both left and right edges equally.
+      let newWidth = currentWidth + deltaX * 2;
+      const minWidth = 320;
+      const maxWidth = containerWidth - 32; // 32px padding
+      newWidth = Math.max(minWidth, Math.min(newWidth, maxWidth));
+      setPreviewWidth(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+
+    const containerWidth = containerRef.current?.offsetWidth || window.innerWidth / 2;
+    const currentWidth = previewWidth === null ? containerWidth : previewWidth;
+    const startX = e.touches[0].clientX;
+
+    const handleTouchMove = (moveEvent: TouchEvent) => {
+      const deltaX = moveEvent.touches[0].clientX - startX;
+      let newWidth = currentWidth + deltaX * 2;
+      const minWidth = 320;
+      const maxWidth = containerWidth - 32;
+      newWidth = Math.max(minWidth, Math.min(newWidth, maxWidth));
+      setPreviewWidth(newWidth);
+    };
+
+    const handleTouchEnd = () => {
+      setIsDragging(false);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+
+    window.addEventListener("touchmove", handleTouchMove);
+    window.addEventListener("touchend", handleTouchEnd);
+  };
 
   // Compile code
   const runCode = useCallback(() => {
@@ -1022,15 +1079,15 @@ export default function SandboxPage() {
               <div className="flex items-center gap-2">
                 <span className="font-semibold font-mono">Viewport:</span>
                 <span className="bg-slate-200 dark:bg-slate-800 px-2 py-0.5 rounded font-mono font-bold text-[#14b8a6]">
-                  {previewWidth === "100%" ? "Full Desktop" : `${previewWidth}`}
+                  {previewWidth === null ? "Full Desktop" : `${previewWidth}px`}
                 </span>
               </div>
 
               <div className="flex items-center gap-1">
                 <button
-                  onClick={() => setPreviewWidth("375px")}
+                  onClick={() => setPreviewWidth(375)}
                   className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium ${
-                    previewWidth === "375px"
+                    previewWidth === 375
                       ? "bg-teal-500 text-white shadow-md shadow-teal-500/20"
                       : darkMode
                         ? "hover:bg-[#21262d] text-[#c9d1d9]"
@@ -1042,9 +1099,9 @@ export default function SandboxPage() {
                   <span className="hidden sm:inline">Mobile (375px)</span>
                 </button>
                 <button
-                  onClick={() => setPreviewWidth("768px")}
+                  onClick={() => setPreviewWidth(768)}
                   className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium ${
-                    previewWidth === "768px"
+                    previewWidth === 768
                       ? "bg-teal-500 text-white shadow-md shadow-teal-500/20"
                       : darkMode
                         ? "hover:bg-[#21262d] text-[#c9d1d9]"
@@ -1056,9 +1113,9 @@ export default function SandboxPage() {
                   <span className="hidden sm:inline">Tablet (768px)</span>
                 </button>
                 <button
-                  onClick={() => setPreviewWidth("100%")}
+                  onClick={() => setPreviewWidth(null)}
                   className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium ${
-                    previewWidth === "100%"
+                    previewWidth === null
                       ? "bg-teal-500 text-white shadow-md shadow-teal-500/20"
                       : darkMode
                         ? "hover:bg-[#21262d] text-[#c9d1d9]"
@@ -1073,19 +1130,24 @@ export default function SandboxPage() {
             </div>
 
             {/* Preview Canvas Container */}
-            <div className={`flex-1 relative overflow-auto flex items-center justify-center p-4 transition-colors duration-500 ${
-              previewWidth === "100%"
-                ? "bg-white p-0"
-                : darkMode
-                  ? "bg-[#090d10]"
-                  : "bg-slate-100"
-            }`}>
+            <div
+              ref={containerRef}
+              className={`flex-1 relative overflow-auto flex items-center justify-center p-4 transition-colors duration-500 ${
+                previewWidth === null
+                  ? "bg-white p-0"
+                  : darkMode
+                    ? "bg-[#090d10]"
+                    : "bg-slate-100"
+              }`}
+            >
               <div
-                style={{ width: previewWidth }}
-                className={`h-full transition-all duration-300 ease-out flex flex-col justify-center ${
-                  previewWidth === "100%"
+                style={{ width: previewWidth === null ? "100%" : `${previewWidth}px` }}
+                className={`h-full flex flex-col justify-center relative bg-white ${
+                  isDragging ? "" : "transition-all duration-300 ease-out"
+                } ${
+                  previewWidth === null
                     ? "w-full"
-                    : "shadow-2xl border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden bg-white"
+                    : "shadow-2xl border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden"
                 }`}
               >
                 {compiledCode ? (
@@ -1093,7 +1155,7 @@ export default function SandboxPage() {
                     ref={iframeRef}
                     srcDoc={compiledCode}
                     title="Sandbox Live Preview Frame"
-                    className="w-full h-full border-none bg-white"
+                    className={`w-full h-full border-none bg-white ${isDragging ? "pointer-events-none" : ""}`}
                     sandbox="allow-scripts"
                   />
                 ) : (
@@ -1101,6 +1163,18 @@ export default function SandboxPage() {
                     <IoAlertCircleOutline className="text-4xl text-teal-400" />
                     <p className="text-sm font-semibold">Tidak ada preview yang aktif</p>
                     <p className="text-xs">Klik tombol <strong>Jalankan (Run)</strong> atau tekan <strong>Ctrl+Enter</strong> untuk memuat kompilasi kode.</p>
+                  </div>
+                )}
+
+                {/* Vertical Drag Handle (Only active in resizable/non-desktop mode) */}
+                {previewWidth !== null && (
+                  <div
+                    onMouseDown={handleMouseDown}
+                    onTouchStart={handleTouchStart}
+                    className="absolute right-0 top-0 bottom-0 w-2.5 hover:w-3.5 cursor-col-resize bg-slate-200/80 hover:bg-teal-500/85 dark:bg-slate-800/80 dark:hover:bg-teal-500/85 transition-all flex items-center justify-center z-20 border-l border-slate-300/40 dark:border-slate-700/40"
+                    title="Seret untuk mengubah ukuran"
+                  >
+                    <div className="w-[1.5px] h-8 bg-slate-400 dark:bg-slate-500 rounded"></div>
                   </div>
                 )}
               </div>
