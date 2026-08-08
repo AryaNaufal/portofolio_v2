@@ -106,17 +106,35 @@ const highlightHtml = (code: string, dark: boolean): string => {
   return escaped;
 };
 
+// Protect CSS comments from being processed by other regex rules
+function protectCssComments(code: string): { safe: string; store: string[] } {
+  const comments: string[] = [];
+  let idx = 0;
+  const safe = code.replace(/\/\*[\s\S]*?\*\//g, (match) => {
+    comments.push(match);
+    return `__CSS_COMMENT_${idx++}__`;
+  });
+  return { safe, store: comments };
+}
+
+function restoreCssComments(safe: string, store: string[]): string {
+  let result = safe;
+  store.forEach((comment, idx) => {
+    result = result.replace(`__CSS_COMMENT_${idx}__`, comment);
+  });
+  return result;
+}
+
 const highlightCss = (code: string, dark: boolean): string => {
   let escaped = code
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  escaped = escaped.replace(/(\/\*[\s\S]*?\*\/)/g, (match: string) => {
-    return `<span class="${dark ? 'text-[#8b949e] italic' : 'text-[#6e7781] italic'}">${match}</span>`;
-  });
+  // Protect comments so regex doesn't match inside them
+  const { safe: codeWithoutComments, store: commentStore } = protectCssComments(escaped);
 
-  const parts = escaped.split(/(\{[\s\S]*?\})/g);
+  const parts = codeWithoutComments.split(/(\{[\s\S]*?\})/g);
   for (let i = 0; i < parts.length; i++) {
     if (parts[i].startsWith("{")) {
       parts[i] = parts[i].replace(/(\{)([\s\S]*?)(\})/g, (match: string, openBrace: string, body: string, closeBrace: string) => {
@@ -134,7 +152,18 @@ const highlightCss = (code: string, dark: boolean): string => {
     }
   }
 
-  return parts.join("");
+  let result = parts.join("");
+
+  // Restore comments with highlight styling
+  const finalParts = result.split(/(__CSS_COMMENT_\d+__)/g);
+  for (let i = 0; i < finalParts.length; i++) {
+    if (/^__CSS_COMMENT_\d+__$/.test(finalParts[i])) {
+      const idx = parseInt(finalParts[i].match(/__CSS_COMMENT_(\d+)__/)![1], 10);
+      finalParts[i] = `<span class="${dark ? 'text-[#8b949e] italic' : 'text-[#6e7781] italic'}">${commentStore[idx]}</span>`;
+    }
+  }
+
+  return finalParts.join("");
 };
 
 function expandEmmet(abbr: string): string | null {
@@ -640,6 +669,7 @@ export default function SandboxPage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const editorRef = useRef<HTMLDivElement>(null);
   const hasCompiledRef = useRef(false);
+  const runCodeRef = useRef<() => void>(() => {});
 
   // Compile code
   const runCode = useCallback(() => {
@@ -686,6 +716,8 @@ export default function SandboxPage() {
     setIsModified(false);
   }, [htmlCode, cssCode]);
 
+  runCodeRef.current = runCode;
+
   // Load from localStorage
   useEffect(() => {
     setIsClient(true);
@@ -705,9 +737,9 @@ export default function SandboxPage() {
 
     if (shouldAutoRun) {
       localStorage.removeItem("sandbox_auto_run");
-      setTimeout(() => runCode(), 100);
+      setTimeout(() => runCodeRef.current(), 100);
     }
-  }, [runCode]);
+  }, []);
 
   // Save to localStorage
   const saveToStorage = useCallback(() => {
