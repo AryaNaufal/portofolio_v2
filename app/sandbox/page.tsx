@@ -146,9 +146,21 @@ const highlightCss = (code: string, dark: boolean): string => {
         return `<span class="${dark ? 'text-[#c9d1d9]' : 'text-[#24292f]'}">${openBrace}</span>${coloredBody}<span class="${dark ? 'text-[#c9d1d9]' : 'text-[#24292f]'}">${closeBrace}</span>`;
       });
     } else {
-      parts[i] = parts[i].replace(/(\.[a-zA-Z0-9_\-]+)/gi, `<span class="${dark ? 'text-[#d2a8ff]' : 'text-[#8250df] font-semibold'}">$1</span>`);
-      parts[i] = parts[i].replace(/(#[a-zA-Z0-9_\-]+)/gi, `<span class="${dark ? 'text-[#d2a8ff]' : 'text-[#8250df] font-semibold'}">$1</span>`);
-      parts[i] = parts[i].replace(/\b(body|html|div|p|h1|h2|h3|h4|h5|h6|span|a|ul|li|button|nav|section|table|tr|td|th|thead|tbody|img|form|input|textarea|label|header|footer)\b/gi, `<span class="${dark ? 'text-[#7ee787]' : 'text-[#116329]'}">$1</span>`);
+      parts[i] = parts[i].replace(
+        /(\.[a-zA-Z0-9_\-]+)|(#[a-zA-Z0-9_\-]+)|\b(body|html|div|p|h1|h2|h3|h4|h5|h6|span|a|ul|li|button|nav|section|table|tr|td|th|thead|tbody|img|form|input|textarea|label|header|footer|main|aside|select|option|iframe|canvas|svg|path)\b/gi,
+        (match, className, idName, tagName) => {
+          if (className) {
+            return `<span class="${dark ? 'text-[#d2a8ff]' : 'text-[#8250df] font-semibold'}">${match}</span>`;
+          }
+          if (idName) {
+            return `<span class="${dark ? 'text-[#d2a8ff]' : 'text-[#8250df] font-semibold'}">${match}</span>`;
+          }
+          if (tagName) {
+            return `<span class="${dark ? 'text-[#7ee787]' : 'text-[#116329]'}">${match}</span>`;
+          }
+          return match;
+        }
+      );
     }
   }
 
