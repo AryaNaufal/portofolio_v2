@@ -301,6 +301,7 @@ p {
     localStorage.setItem("sandbox_css", cssToStore);
     localStorage.setItem("sandbox_lang", language.toLowerCase());
     localStorage.setItem("sandbox_filename", filename);
+    localStorage.setItem("sandbox_auto_run", "true");
     
     window.open("/sandbox", "_blank");
   };
@@ -419,14 +420,16 @@ p {
     <div className="my-6 overflow-hidden rounded-2xl border border-slate-700/80 bg-[#0d1117] shadow-2xl shadow-black/50">
       {/* Code Editor Header Bar (Mac / VSCode Canvas Header) */}
       <div className="flex items-center justify-between border-b border-slate-800 bg-[#161b22] px-4 py-3 select-none">
-        {/* Mac Window Control Dots */}
         <div className="flex items-center gap-2">
-          <span className="h-3 w-3 rounded-full bg-red-500/90 shadow-sm shadow-red-500/50"></span>
-          <span className="h-3 w-3 rounded-full bg-amber-500/90 shadow-sm shadow-amber-500/50"></span>
-          <span className="h-3 w-3 rounded-full bg-emerald-500/90 shadow-sm shadow-emerald-500/50"></span>
+          {/* Mac Window Control Dots */}
+          <div className="hidden sm:flex items-center gap-2">
+            <span className="h-3 w-3 rounded-full bg-red-500/90 shadow-sm shadow-red-500/50"></span>
+            <span className="h-3 w-3 rounded-full bg-amber-500/90 shadow-sm shadow-amber-500/50"></span>
+            <span className="h-3 w-3 rounded-full bg-emerald-500/90 shadow-sm shadow-emerald-500/50"></span>
+          </div>
 
           {/* Filename Tab */}
-          <div className="ml-3 flex items-center gap-1.5 rounded-md bg-[#0d1117] px-3 py-1 text-xs font-mono font-medium text-slate-300 border border-slate-800">
+          <div className="sm:ml-3 flex items-center gap-1.5 rounded-md bg-[#0d1117] px-3 py-1 text-xs font-mono font-medium text-slate-300 border border-slate-800">
             <span className="h-2 w-2 rounded-full bg-teal-400"></span>
             {filename}
           </div>

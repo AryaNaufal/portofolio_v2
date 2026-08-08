@@ -602,6 +602,30 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, language, dark
   );
 };
 
+const EditorHints = ({ darkMode }: { darkMode: boolean }) => {
+  const hints = [
+    { key: "Tab", action: "Emmet / Indent" },
+    { key: "Shift+Tab", action: "Outdent" },
+    { key: "Enter", action: "Auto-indent" },
+    { key: ">", action: "Auto-close tag" },
+  ];
+
+  return (
+    <div className={`flex flex-wrap items-center gap-2 px-4 py-2 text-[10px] font-mono border-t transition-colors ${
+      darkMode ? "bg-[#161b22] border-[#30363d] text-[#8b949e]" : "bg-[#f6f8fa] border-[#d0d7de] text-[#57606a]"
+    }`}>
+      {hints.map((h) => (
+        <span key={h.key} className="flex items-center gap-1">
+          <kbd className={`px-1.5 py-0.5 rounded text-[9px] font-bold border ${
+            darkMode ? "bg-[#21262d] border-[#30363d] text-[#c9d1d9]" : "bg-white border-[#d0d7de] text-[#24292f]"
+          }`}>{h.key}</kbd>
+          <span>{h.action}</span>
+        </span>
+      ))}
+    </div>
+  );
+};
+
 export default function SandboxPage() {
   const { darkMode, setDarkMode } = useTheme();
 
@@ -616,36 +640,6 @@ export default function SandboxPage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const editorRef = useRef<HTMLDivElement>(null);
   const hasCompiledRef = useRef(false);
-
-  // Load from localStorage
-  useEffect(() => {
-    setIsClient(true);
-    const storedHtml = localStorage.getItem("sandbox_html");
-    const storedCss = localStorage.getItem("sandbox_css");
-    const storedLang = localStorage.getItem("sandbox_lang");
-
-    if (storedHtml || storedCss) {
-      setHtmlCode(storedHtml || "");
-      setCssCode(storedCss || "");
-      if (storedLang === "css") setActiveTab("css");
-    } else {
-      setHtmlCode(DEFAULT_HTML);
-      setCssCode(DEFAULT_CSS);
-    }
-  }, []);
-
-  // Save to localStorage
-  const saveToStorage = useCallback(() => {
-    localStorage.setItem("sandbox_html", htmlCode);
-    localStorage.setItem("sandbox_css", cssCode);
-    localStorage.setItem("sandbox_lang", activeTab);
-  }, [htmlCode, cssCode, activeTab]);
-
-  // Auto-save on code change
-  useEffect(() => {
-    if (!isClient) return;
-    saveToStorage();
-  }, [htmlCode, cssCode, activeTab, isClient, saveToStorage]);
 
   // Compile code
   const runCode = useCallback(() => {
@@ -691,6 +685,42 @@ export default function SandboxPage() {
     setCompiledCode(compiled);
     setIsModified(false);
   }, [htmlCode, cssCode]);
+
+  // Load from localStorage
+  useEffect(() => {
+    setIsClient(true);
+    const storedHtml = localStorage.getItem("sandbox_html");
+    const storedCss = localStorage.getItem("sandbox_css");
+    const storedLang = localStorage.getItem("sandbox_lang");
+    const shouldAutoRun = localStorage.getItem("sandbox_auto_run") === "true";
+
+    if (storedHtml || storedCss) {
+      setHtmlCode(storedHtml || "");
+      setCssCode(storedCss || "");
+      if (storedLang === "css") setActiveTab("css");
+    } else {
+      setHtmlCode(DEFAULT_HTML);
+      setCssCode(DEFAULT_CSS);
+    }
+
+    if (shouldAutoRun) {
+      localStorage.removeItem("sandbox_auto_run");
+      setTimeout(() => runCode(), 100);
+    }
+  }, [runCode]);
+
+  // Save to localStorage
+  const saveToStorage = useCallback(() => {
+    localStorage.setItem("sandbox_html", htmlCode);
+    localStorage.setItem("sandbox_css", cssCode);
+    localStorage.setItem("sandbox_lang", activeTab);
+  }, [htmlCode, cssCode, activeTab]);
+
+  // Auto-save on code change
+  useEffect(() => {
+    if (!isClient) return;
+    saveToStorage();
+  }, [htmlCode, cssCode, activeTab, isClient, saveToStorage]);
 
   // Compile once initially on mount
   useEffect(() => {
@@ -897,6 +927,9 @@ export default function SandboxPage() {
               />
             )}
           </div>
+
+          {/* Hint toolbar di bawah editor */}
+          <EditorHints darkMode={darkMode} />
         </section>
 
         {/* Right Preview Panel */}

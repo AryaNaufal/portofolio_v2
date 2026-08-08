@@ -32,7 +32,7 @@ export default function ArticleDetailClient({
 
   return (
     <main className="min-h-screen pt-28 pb-24 bg-background text-foreground transition-colors duration-700">
-      <div className="container max-w-7xl">
+      <div className="container">
         {/* Breadcrumb & Top Actions */}
         <div className="mb-8 flex items-center justify-between">
           <Link
