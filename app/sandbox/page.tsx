@@ -12,6 +12,9 @@ import {
   IoRefreshCircleOutline,
   IoAlertCircleOutline,
   IoTrashOutline,
+  IoPhonePortraitOutline,
+  IoTabletPortraitOutline,
+  IoDesktopOutline,
 } from "react-icons/io5";
 
 const DEFAULT_HTML = `<!-- HTML target sandbox -->
@@ -677,6 +680,7 @@ export default function SandboxPage() {
   const [editorHeight, setEditorHeight] = useState(300);
   const [isClient, setIsClient] = useState(false);
   const [isModified, setIsModified] = useState(false);
+  const [previewWidth, setPreviewWidth] = useState<string>("100%");
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const editorRef = useRef<HTMLDivElement>(null);
@@ -1011,23 +1015,95 @@ export default function SandboxPage() {
               </button>
             </div>
 
-            {/* Preview Canvas */}
-            <div className="flex-1 bg-white relative">
-              {compiledCode ? (
-                <iframe
-                  ref={iframeRef}
-                  srcDoc={compiledCode}
-                  title="Sandbox Live Preview Frame"
-                  className="w-full h-full border-none bg-white"
-                  sandbox="allow-scripts"
-                />
-              ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 p-6 text-center gap-2">
-                  <IoAlertCircleOutline className="text-4xl text-teal-400" />
-                  <p className="text-sm font-semibold">Tidak ada preview yang aktif</p>
-                  <p className="text-xs">Klik tombol <strong>Jalankan (Run)</strong> atau tekan <strong>Ctrl+Enter</strong> untuk memuat kompilasi kode.</p>
-                </div>
-              )}
+            {/* Viewport Resizer Sub-toolbar */}
+            <div className={`flex items-center justify-between px-4 py-2 border-b text-[11px] transition-colors duration-500 ${
+              darkMode ? "bg-[#0d1117] border-[#30363d] text-[#8b949e]" : "bg-slate-50 border-[#d0d7de] text-slate-600"
+            }`}>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold font-mono">Viewport:</span>
+                <span className="bg-slate-200 dark:bg-slate-800 px-2 py-0.5 rounded font-mono font-bold text-[#14b8a6]">
+                  {previewWidth === "100%" ? "Full Desktop" : `${previewWidth}`}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => setPreviewWidth("375px")}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium ${
+                    previewWidth === "375px"
+                      ? "bg-teal-500 text-white shadow-md shadow-teal-500/20"
+                      : darkMode
+                        ? "hover:bg-[#21262d] text-[#c9d1d9]"
+                        : "hover:bg-slate-200/80 text-[#24292f]"
+                  }`}
+                  title="Tampilan HP (375px)"
+                >
+                  <IoPhonePortraitOutline className="text-sm" />
+                  <span className="hidden sm:inline">Mobile (375px)</span>
+                </button>
+                <button
+                  onClick={() => setPreviewWidth("768px")}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium ${
+                    previewWidth === "768px"
+                      ? "bg-teal-500 text-white shadow-md shadow-teal-500/20"
+                      : darkMode
+                        ? "hover:bg-[#21262d] text-[#c9d1d9]"
+                        : "hover:bg-slate-200/80 text-[#24292f]"
+                  }`}
+                  title="Tampilan Tablet (768px)"
+                >
+                  <IoTabletPortraitOutline className="text-sm" />
+                  <span className="hidden sm:inline">Tablet (768px)</span>
+                </button>
+                <button
+                  onClick={() => setPreviewWidth("100%")}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all font-medium ${
+                    previewWidth === "100%"
+                      ? "bg-teal-500 text-white shadow-md shadow-teal-500/20"
+                      : darkMode
+                        ? "hover:bg-[#21262d] text-[#c9d1d9]"
+                        : "hover:bg-slate-200/80 text-[#24292f]"
+                  }`}
+                  title="Tampilan Penuh (100%)"
+                >
+                  <IoDesktopOutline className="text-sm" />
+                  <span className="hidden sm:inline">Desktop</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Preview Canvas Container */}
+            <div className={`flex-1 relative overflow-auto flex items-center justify-center p-4 transition-colors duration-500 ${
+              previewWidth === "100%"
+                ? "bg-white p-0"
+                : darkMode
+                  ? "bg-[#090d10]"
+                  : "bg-slate-100"
+            }`}>
+              <div
+                style={{ width: previewWidth }}
+                className={`h-full transition-all duration-300 ease-out flex flex-col justify-center ${
+                  previewWidth === "100%"
+                    ? "w-full"
+                    : "shadow-2xl border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden bg-white"
+                }`}
+              >
+                {compiledCode ? (
+                  <iframe
+                    ref={iframeRef}
+                    srcDoc={compiledCode}
+                    title="Sandbox Live Preview Frame"
+                    className="w-full h-full border-none bg-white"
+                    sandbox="allow-scripts"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 p-6 text-center gap-2 bg-white">
+                    <IoAlertCircleOutline className="text-4xl text-teal-400" />
+                    <p className="text-sm font-semibold">Tidak ada preview yang aktif</p>
+                    <p className="text-xs">Klik tombol <strong>Jalankan (Run)</strong> atau tekan <strong>Ctrl+Enter</strong> untuk memuat kompilasi kode.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </section>
